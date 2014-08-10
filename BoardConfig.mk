@@ -30,7 +30,7 @@ TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.6
 TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_logan_rev03_defconfig
 TARGET_KERNEL_SOURCE := device/samsung/logan/kernel
 BOARD_HAS_NO_SELECT_BUTTON := true
-#BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_HAS_LARGE_FILESYSTEM := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -81,7 +81,8 @@ BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charg
 BOARD_RIL_CLASS := ../../../device/samsung/logan/ril/
 
 # Recovery
-TARGET_RECOVERY_FSTAB := device/samsung/logan/ramdisk/fstab.hawaii_ss_logan
+TARGET_RECOVERY_INITRC := device/samsung/logan/ramdisk/init.recovery.rc
+TARGET_RECOVERY_FSTAB := device/samsung/logan/ramdisk/recovery.fstab
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 
 # healthd
@@ -95,7 +96,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/samsung/logan/include
 
 # SELinux
 BOARD_SEPOLICY_DIRS += \
-    device/samsung/logands/sepolicy
+    device/samsung/logan/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \

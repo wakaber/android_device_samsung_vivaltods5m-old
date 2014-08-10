@@ -5,6 +5,10 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 $(call inherit-product-if-exists, vendor/samsung/logan/logan-common-vendor.mk)
 
+# MDPI assets
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
+
 # Use high-density artwork where available
 PRODUCT_LOCALES += hdpi
 
@@ -12,7 +16,7 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 
 # Init files
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/ramdisk/init.hawaii_ss_logands.rc:root/init.hawaii_ss_logands.rc \
+	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
 	device/samsung/logan/ramdisk/init.bt.rc:root/init.bt.rc \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
