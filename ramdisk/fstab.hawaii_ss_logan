@@ -7,8 +7,9 @@
 # Data partition  
 /dev/block/mmcblk0p19   /data              ext4        nosuid,nodev,noatime,noauto_da_alloc,discard,journal_async_commit,errors=panic  		    wait,check,encryptable=footer 
 # SD cards
-/dev/block/platform/sdhci.0/mmcblk1p1	/storage/sdcard1   auto		   defaults	    voldmanaged=sdcard1:auto
+/dev/block/platform/sdhci.0/mmcblk1p1	/sdcard   vfat		   defaults	    voldmanaged=sdcard:auto
 # Recovery 
+/dev/block/mmcblk1p1	/sdcard1   		   vfat		   defaults	    recoveryonly
 /dev/block/mmcblk0p5	/boot			   emmc		   defaults	    recoveryonly 
 /dev/block/mmcblk0p6	/recovery		   emmc		   defaults 	recoveryonly	
 
