@@ -83,10 +83,10 @@ BOARD_RIL_CLASS := ../../../device/samsung/logan/ril/
 # Recovery
 TARGET_RECOVERY_INITRC := device/samsung/logan/ramdisk/init.recovery.rc
 TARGET_RECOVERY_FSTAB := device/samsung/logan/ramdisk/fstab.hawaii_ss_logan
-TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
+#TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 TARGET_USERIMAGES_USE_EXT4 := true
 BOARD_LDPI_RECOVERY := true 
-TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
+TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
 # healthd
 #BOARD_HAL_STATIC_LIBRARIES := libhealthd.capri
