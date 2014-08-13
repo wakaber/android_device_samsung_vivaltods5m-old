@@ -1,1 +1,1 @@
-import /init.recovery.${ro.hardware}.rc
+import /init.recovery.hawaii_ss_logan.rc
