@@ -10,7 +10,7 @@ on init
 	export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
     export ANDROID_ROOT /system
     export ANDROID_DATA /data
-    export EXTERNAL_STORAGE /sdcard1
+    export EXTERNAL_STORAGE /sdcard0
 
 	symlink /system/etc /etc
 
