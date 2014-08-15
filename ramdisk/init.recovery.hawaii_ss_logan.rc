@@ -12,7 +12,7 @@ on init
     export ANDROID_DATA /data
     
 	export EXTERNAL_STORAGE /sdcard0
-    export SECONDARY_STORAGE /sdcard1
+	export EXTERNAL_STORAGE /sdcard1
 
 	symlink /system/etc /etc
 
