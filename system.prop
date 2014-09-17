@@ -1,6 +1,7 @@
 #
-# system.prop for logan
+# LOGAN (GT-S7270)
 #
+
 persist.brcm.log=none
 persist.brcm.cp_crash=none
 persist.brcm.ap_crash=none

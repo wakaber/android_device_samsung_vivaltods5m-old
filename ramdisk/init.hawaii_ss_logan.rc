@@ -1,5 +1,4 @@
 import init.bcm2166x.usb.rc
-import init.bt.rc
 import init.log.rc
 
 on early-init
@@ -288,7 +287,7 @@ on boot
     chown radio root /data/sec
 
 # BCMPMU drivers
-    chown -R system system /sys/devices/platform/bcmpmu*/*
+    chown -R system system /sys/devices/platform/bcmpmu*
 
 # change owner of mtest system to allow atx/atxd to write this file:
     chown system system /sys/kernel/sysrpc/mtest    
@@ -362,7 +361,7 @@ on boot
     setprop ro.multisim.simslotcount 2
     
 on fs
-    mount_all /fstab.hawaii_ss_logands
+    mount_all /fstab.hawaii_ss_logan
     setprop ro.crypto.fuse_sdcard true
 
     # don't require sim

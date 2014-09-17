@@ -14,13 +14,12 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
-	device/samsung/logan/ramdisk/init.bt.rc:root/init.bt.rc \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
 	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
 	device/samsung/logan/ramdisk/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/fstab.hawaii_ss_logan:root/fstab.hawaii_ss_logan
-
+	
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/other/media_codecs.xml:system/etc/media_codecs.xml \
 
