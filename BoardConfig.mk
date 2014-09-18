@@ -25,7 +25,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 # Kernel
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.6
-TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_logan_rev03_defconfig_2
+TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_logan_rev03_defconfig
 TARGET_KERNEL_SOURCE := device/samsung/logan/kernel
 
 # Bluetooth
