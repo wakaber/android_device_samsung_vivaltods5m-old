@@ -13,6 +13,10 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 # Init files
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
+	device/samsung/logan/ramdisk/init.bt.rc:root/init.bt.rc \
+	device/samsung/logan/ramdisk/init.cm.rc:root/init.cm.rc \
+	device/samsung/logan/ramdisk/init.environ.rc:root/init.environ.rc \
+	device/samsung/logan/ramdisk/init.rc:root/init.rc \
 	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
 	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
