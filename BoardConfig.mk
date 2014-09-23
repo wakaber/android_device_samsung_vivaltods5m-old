@@ -1,7 +1,7 @@
 # inherit from the proprietary version
 -include vendor/samsung/logan/BoardConfigVendor.mk
 
-TARGET_OTA_ASSERT_DEVICE := logands,s7270,GT-S7270,hawaii
+TARGET_OTA_ASSERT_DEVICE := logan,s7270,GT-S7270,hawaii
 
 TARGET_ARCH := arm
 TARGET_NO_BOOTLOADER := true
