@@ -14,14 +14,15 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/init.bt.rc:root/init.bt.rc \
-	device/samsung/logan/ramdisk/init.cm.rc:root/init.cm.rc \
-	device/samsung/logan/ramdisk/init.environ.rc:root/init.environ.rc \
-	device/samsung/logan/ramdisk/init.rc:root/init.rc \
 	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
+	device/samsung/logan/ramdisk/init.trace.rc:root/init.trace.rc \
+	device/samsung/logan/ramdisk/init.usb.rc:root/init.usb.rc \
+	device/samsung/logan/ramdisk/init.rc:root/init.rc \
 	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
 	device/samsung/logan/ramdisk/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
+	device/samsung/logan/ramdisk/ueventd.rc:root/ueventd.rc \
 	device/samsung/logan/ramdisk/fstab.hawaii_ss_logan:root/fstab.hawaii_ss_logan
 	
 PRODUCT_COPY_FILES += \
