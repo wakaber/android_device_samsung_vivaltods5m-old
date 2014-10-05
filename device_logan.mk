@@ -18,7 +18,7 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
 	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
 	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
-	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:recovery/root/init.recovery.hawaii_ss_logan.rc
+	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
 		
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/configs/audio_policy.conf:system/etc/audio_policy.conf \
