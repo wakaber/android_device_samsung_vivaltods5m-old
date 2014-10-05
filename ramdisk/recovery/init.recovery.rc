@@ -9,7 +9,7 @@ on early-init
     setcon u:r:init:s0
 
     start ueventd
-    #start healthd
+    start healthd
 
 on init
     export PATH /sbin:/system/bin
@@ -87,9 +87,9 @@ service ueventd /sbin/ueventd
     critical
     seclabel u:r:ueventd:s0
 
-#service healthd /sbin/healthd -n
-#    critical
-#    seclabel u:r:healthd:s0
+service healthd /sbin/healthd -n
+    critical
+    seclabel u:r:healthd:s0
 
 service recovery /sbin/recovery
     seclabel u:r:recovery:s0
