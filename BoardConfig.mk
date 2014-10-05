@@ -1,8 +1,12 @@
+USE_CAMERA_STUB := true
+
 # inherit from the proprietary version
 -include vendor/samsung/logan/BoardConfigVendor.mk
 
+# Assert
 TARGET_OTA_ASSERT_DEVICE := logan,s7270,GT-S7270,hawaii
 
+# Platform
 TARGET_ARCH := arm
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := hawaii
@@ -11,10 +15,13 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_VARIANT := cortex-a9
 TARGET_CPU_SMP := true
-
 TARGET_BOOTLOADER_BOARD_NAME := hawaii
 
-BOARD_KERNEL_CMDLINE := console=ttyS0,115200n8 mem=456M gpt v3d_mem=67108864 pmem=24M@0x9E800000
+# Include path
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/logan/include
+
+# Kernel
+BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_BASE := 0x82000000
 BOARD_KERNEL_PAGESIZE := 4096
 
@@ -33,9 +40,15 @@ TARGET_KERNEL_SOURCE := device/samsung/logan/kernel
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/logan/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/samsung/logan/other/libbt_vndcfg.txt
+BOARD_BLUEDROID_VENDOR_CONF := device/samsung/logan/bluetooth/libbt_vndcfg.txt
+
+# Camera
+COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CAMERA_HARDWARE
+TARGET_PROVIDES_CAMERA_HAL := true
+USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Connectivity - Wi-Fi
+WPA_BUILD_SUPPLICANT := true
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 WPA_SUPPLICANT_VERSION      := VER_0_8_X
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
@@ -60,12 +73,14 @@ BOARD_USES_SKTEXTBOX := true
 
 # Hardware rendering
 USE_OPENGL_RENDERER := true
-BOARD_EGL_CFG := device/samsung/logan/other/egl.cfg
-TARGET_BOARD_PLATFORM_GPU := hgl
+#BOARD_EGL_CFG := device/samsung/logan/configs/egl.cfg
+#TARGET_BOARD_PLATFORM_GPU := hgl
 BOARD_USES_HW_RENDER := true
 BOARD_USE_MHEAP_SCREENSHOT := true
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+HWUI_COMPILE_FOR_PERF := true
+COMMON_GLOBAL_CFLAGS += -DEGL_NEEDS_FNW
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS -DHAWAII_HWC
 
 # Bootanimation
@@ -81,8 +96,16 @@ BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charg
 # RIL
 BOARD_RIL_CLASS := ../../../device/samsung/logan/ril/
 
+# OMX
+BOARD_HAVE_CODEC_SUPPORT := SAMSUNG_CODEC_SUPPORT
+COMMON_GLOBAL_CFLAGS += -DSAMSUNG_CODEC_SUPPORT -DSAMSUNG_OMX
+BOARD_NONBLOCK_MODE_PROCESS := true
+BOARD_USE_STOREMETADATA := true
+BOARD_USE_METADATABUFFERTYPE := true
+BOARD_USES_MFC_FPS := true
+
 # Browser
-ENABLE_WEBGL := true
+#ENABLE_WEBGL := true
 
 # Vold
 #BOARD_VOLD_MAX_PARTITIONS := 25
@@ -90,24 +113,23 @@ ENABLE_WEBGL := true
 #BOARD_VOLD_DISC_HAS_MULTIPLE_MAJORS := true
 
 # Recovery
-TARGET_RECOVERY_INITRC := device/samsung/logan/ramdisk/init.recovery.rc
+TARGET_RECOVERY_INITRC := device/samsung/logan/ramdisk/recovery/init.recovery.rc
 TARGET_RECOVERY_FSTAB := device/samsung/logan/ramdisk/fstab.hawaii_ss_logan
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_HAS_LARGE_FILESYSTEM := false
+BOARD_HAS_LARGE_FILESYSTEM := true
 TARGET_USERIMAGES_USE_EXT4 := true
+#TARGET_USERIMAGES_USE_F2FS := true
+TARGET_SETS_FSTAB := true
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 BOARD_HAS_NO_MISC_PARTITION := true
 BOARD_SUPPRESS_EMMC_WIPE := true
 
 # healthd
-#BOARD_HAL_STATIC_LIBRARIES := libhealthd.hawaii
+BOARD_HAL_STATIC_LIBRARIES := libhealthd.hawaii
 
 # CMHW  
-BOARD_HARDWARE_CLASS := device/samsung/logan/cmhw/
-
-# GPS
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/logan/include
+BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/logan/cmhw/
 
 # SELinux
 BOARD_SEPOLICY_DIRS += \

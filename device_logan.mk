@@ -12,39 +12,52 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 
 # Init files
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
-	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
-	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
-	device/samsung/logan/ramdisk/init.trace.rc:root/init.trace.rc \
-	device/samsung/logan/ramdisk/init.usb.rc:root/init.usb.rc \
-	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
-	device/samsung/logan/ramdisk/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc \
-	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/fstab.hawaii_ss_logan:root/fstab.hawaii_ss_logan
-	
+	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
+	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
+	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
+	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
+	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
+	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:recovery/root/init.recovery.hawaii_ss_logan.rc
+		
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/other/media_codecs.xml:system/etc/media_codecs.xml \
+	device/samsung/logan/configs/audio_policy.conf:system/etc/audio_policy.conf \
+	device/samsung/logan/configs/default_gain.conf:system/etc/default_gain.conf \
+	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml \
+	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml \
+	device/samsung/logan/configs/tinyucm.conf:system/etc/tinyucm.conf
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/keylayouts/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
 	device/samsung/logan/keylayouts/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
 	device/samsung/logan/keylayouts/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-	device/samsung/logan/keylayouts/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl \
-	device/samsung/logan/keylayouts/sii9234_rcp.kl:system/usr/keylayout/sii9234_rcp.kl
-
+	device/samsung/logan/keylayouts/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
+	
+# Audio
+PRODUCT_PACKAGES += \
+	audio.a2dp.default \
+	audio.primary.default \
+	audio.r_submix.default \
+	audio.usb.default
+	
+PRODUCT_PACKAGES += libstagefright_avc_common	
+	
 # Filesystem management tools
 PRODUCT_PACKAGES += \
 	setup_fs
+	
+# F2FS filesystem
+#PRODUCT_PACKAGES += \
+#	e2fsck \
+#	mkfs.f2fs \
+#	fsck.f2fs \
+#	fibmap.f2fs \
+#	f2fstat	
 
 # Usb accessory
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
-
-# Misc other modules
-PRODUCT_PACKAGES += \
-	audio.a2dp.default \
-	audio.usb.default
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -74,11 +87,10 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
-# Support for Browser's saved page feature. This allows
-# for pages saved on previous versions of the OS to be
-# viewed on the current OS.
-PRODUCT_PACKAGES += \
-    libskia_legacy
+# Dbg	
+ADDITIONAL_DEFAULT_PROPERTIES += \
+	persist.service.adb.enable=1
+	
 
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
@@ -88,6 +100,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
+	ro.telephony.call_ring.multiple=0 \
+    ro.telephony.call_ring=0 \
+    ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc \
+    ro.sf.lcd_density=190 
+	
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -103,6 +120,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.kernel.android.checkjni=0 \
     dalvik.vm.checkjni=false
 
+# KSM
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.ksm.default=1	
+
 # MTP
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
@@ -116,8 +137,6 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
-
-
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_logan
