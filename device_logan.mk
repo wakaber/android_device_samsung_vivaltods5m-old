@@ -98,6 +98,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     mobiledata.interfaces=rmnet0 \
+	ro.debuggable=1 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
 	ro.telephony.call_ring.multiple=0 \
