@@ -32,8 +32,8 @@ on early-init
     symlink /storage/emulated/legacy /storage/sdcard0
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
-    export SECONDARY_STORAGE /storage/extSdCard
-    mkdir /storage/extSdCard 0555 root root
+    export SECONDARY_STORAGE /storage/sdcard1
+    mkdir /storage/sdcard1 0555 root root
 
 # To store widevine keybox
     symlink /data/app /factory
@@ -674,8 +674,8 @@ service sensord /system/bin/sensord
 # create virtual SD card at /mnt/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing
 # underlying files in /data/media will be created with user and group media_rw (1023)
-#service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
-#   class late_start
+service sdcard /system/bin/sdcard /data/media /mnt/shell/emulated 1023 1023
+   class late_start
 
 
 #	-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf -N \
