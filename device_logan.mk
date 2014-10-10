@@ -48,12 +48,12 @@ PRODUCT_PACKAGES += \
 	setup_fs
 	
 # F2FS filesystem
-#PRODUCT_PACKAGES += \
-#	e2fsck \
-#	mkfs.f2fs \
-#	fsck.f2fs \
-#	fibmap.f2fs \
-#	f2fstat	
+PRODUCT_PACKAGES += \
+	e2fsck \
+	mkfs.f2fs \
+	fsck.f2fs \
+	fibmap.f2fs \
+	f2fstat	
 
 # Usb accessory
 PRODUCT_PACKAGES += \
@@ -91,20 +91,22 @@ PRODUCT_COPY_FILES += \
 ADDITIONAL_DEFAULT_PROPERTIES += \
 	persist.service.adb.enable=1
 	
-
+# Insecure ADBD
+ADDITIONAL_DEFAULT_PROPERTIES += \
+	ro.adb.secure=3 \
+	persist.sys.root_access=3	
+	
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
 # be reachable from resources or other mechanisms.
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     mobiledata.interfaces=rmnet0 \
-	ro.debuggable=1 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
 	ro.telephony.call_ring.multiple=0 \
     ro.telephony.call_ring=0 \
-    ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc \
-    ro.sf.lcd_density=190 
+    ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc
 	
 
 # enable Google-specific location features,
@@ -122,8 +124,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.checkjni=false
 
 # KSM
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.ksm.default=1	
+#PRODUCT_PROPERTY_OVERRIDES += \
+#    ro.ksm.default=1	
 
 # MTP
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
