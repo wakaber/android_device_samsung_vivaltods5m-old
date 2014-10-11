@@ -1,5 +1,4 @@
 import init.bcm2166x.usb.rc
-#import init.bt.rc
 import init.log.rc
 
 on early-init
@@ -35,6 +34,8 @@ on init
 
 # We will create our own ril-daemon service with different perm and sockets
     stop ril-daemon
+# We will create our own console service
+    stop console	
 	
 on post-fs-data
 # we will remap this as /storage/sdcard with the sdcard fuse tool
@@ -156,6 +157,60 @@ on post-fs-data
 # for adb
     chmod 0775 /system/etc/usbdev.sh
     chmod 0775 /system/etc/startadb.sh
+	
+#[ SEC_MM_DRM
+
+    # [ save OMA DB, when upgrading from GB to ICS    
+    # belows will be removed at KLP
+    mkdir /data/system/databases 0771 system system
+    copy /data/data/com.sec.android.providers.drm/databases/drmdatabase.db /data/system/databases/drmdatabase.db
+    chown system system /data/system/databases/drmdatabase.db
+    chmod 0774 /data/system/databases/drmdatabase.db	
+    # ]
+
+		#DRM directory creation
+    mkdir /system/etc/security/.drm 0775
+    chown root root /system/etc/security/.drm
+    chmod 0775 /system/etc/security/.drm
+
+    # Added for Playready DRM Support
+    mkdir /data/data/.drm 0775
+    chown drm system /data/data/.drm
+    chmod 0775 /data/data/.drm
+    mkdir /data/data/.drm/.playready 0775
+    chown drm system /data/data/.drm/.playready
+    chmod 0775 /data/data/.drm/.playready
+
+#    # TZPR 1
+#    mkdir /system/etc/security/.drm/ext1 0775
+#    chown root root /system/etc/security/.drm/ext1
+#    chmod 0775 /system/etc/security/.drm/ext1
+
+    # TZPR 2
+#    mkdir /efs/drm 0775
+#    chown drm system /efs/drm
+#    chmod 0775 /efs/drm
+#    mkdir /efs/drm/playready 0775
+#    chown drm system /efs/drm/playready
+#    chmod 0775 /efs/drm/playready
+
+    #Added drm folder to copy drm plugins
+    mkdir /system/lib/drm 0775
+    chown root root /system/lib/drm
+    chmod 0775 /system/lib/drm
+
+    # DivX DRM
+    mkdir /efs/.files 0775
+    mkdir /efs/.files/.dx1 0775
+    mkdir /efs/.files/.dm33 0775
+    mkdir /efs/.files/.mp301 0775
+    chown media system /efs/.files/.dx1
+    chown media system /efs/.files/.dm33
+    chown media system /efs/.files/.mp301
+    chmod 0775 /efs/.files/.dx1
+    chmod 0775 /efs/.files/.dm33
+    chmod 0775 /efs/.files/.mp301    
+#]	
 
 on boot
 # SISO-ANDR_PERF :: START Changing scheduler to noop during boot
@@ -279,7 +334,7 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
 
 # BCMPMU drivers
     chown -R system system /sys/devices/platform/bcmpmu*/*
-
+# */
 # change owner of mtest system to allow atx/atxd to write this file:
     chown system system /sys/kernel/sysrpc/mtest
 
@@ -366,13 +421,112 @@ on fs
 	chown radio system /dev/block/mmcblk0p1    
 	chmod 0770 /dev/block/mmcblk0p1
 
-	chmod 6755 /system/xbin/su
+#	chmod 6755 /system/xbin/su
+	
+#    # for multi csc
+    chown radio radio /proc/LinuStoreIII/efs_info 
+    chmod 0664 /proc/LinuStoreIII/efs_info
+#    # for protecting key string
+    chown radio radio /proc/LinuStoreIII/keystr 
+    chmod 0664 /proc/LinuStoreIII/keystr
+#    # for ril_prop
+    chown radio radio /proc/LinuStoreIII/ril_prop 
+    chmod 0664 /proc/LinuStoreIII/ril_prop
+#    # for fsbuild_check
+    chown radio radio /proc/LinuStoreIII/fsbuild_check 
+    chmod 0664 /proc/LinuStoreIII/fsbuild_check
+#    # for recovery_opts
+    chown system radio /proc/LinuStoreIII/recovery_opts 
+    chmod 0664 /proc/LinuStoreIII/recovery_opts	
 	
 # Audio (Earjack)
     chown system radio /sys/class/audio/earjack/select_jack
     chown system radio /sys/class/audio/earjack/key_state
     chown system radio /sys/class/audio/earjack/state
     chown media system /sys/class/audio/earjack/reselect_jack
+	
+# Battery node
+    chown system radio /sys/class/power_supply/battery/batt_charging_source
+    chown system radio /sys/class/power_supply/battery/batt_error_test
+    chown system radio /sys/class/power_supply/battery/batt_lp_charging
+    chown system radio /sys/class/power_supply/battery/batt_read_adj_soc
+    chown system radio /sys/class/power_supply/battery/batt_read_raw_soc
+    chown system radio /sys/class/power_supply/battery/batt_reset_soc
+    chown system radio /sys/class/power_supply/battery/batt_slate_mode
+    chown system radio /sys/class/power_supply/battery/batt_temp_adc
+    chown system radio /sys/class/power_supply/battery/batt_temp_adc_aver
+    chown system radio /sys/class/power_supply/battery/batt_temp_adc_cal
+    chown system radio /sys/class/power_supply/battery/batt_temp_aver
+    chown system radio /sys/class/power_supply/battery/batt_type
+    chown system radio /sys/class/power_supply/battery/batt_vf_adc
+    chown system radio /sys/class/power_supply/battery/batt_vfocv
+    chown system radio /sys/class/power_supply/battery/batt_vol_adc
+    chown system radio /sys/class/power_supply/battery/batt_vol_adc_aver
+    chown system radio /sys/class/power_supply/battery/batt_vol_adc_cal
+    chown system radio /sys/class/power_supply/battery/batt_vol_aver
+    chown system radio /sys/class/power_supply/battery/factory_mode
+    chown system radio /sys/class/power_supply/battery/siop_activated
+    chown system radio /sys/class/power_supply/battery/siop_level
+    chown system radio /sys/class/power_supply/battery/update
+    chown system radio /sys/class/power_supply/battery/wc_status
+    chown system radio /sys/class/power_supply/battery/wpc_pin_state
+    chown system radio /sys/class/power_supply/fuelgauge/fg_curr_ua
+
+# CTIA event
+   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/call
+   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/video
+   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/music
+   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/browser
+   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/hotspot
+   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/camera
+   chown system radio /sys/class/power_supply/battery/talk_wcdma
+   chown system radio /sys/class/power_supply/battery/talk_gsm
+   chown system radio /sys/class/power_supply/battery/call
+   chown system radio /sys/class/power_supply/battery/data_call
+   chown gps radio /sys/class/power_supply/battery/gps
+   chown system radio /sys/class/power_supply/battery/wifi
+   chown system radio /sys/class/power_supply/battery/lte
+
+# Thermistor node
+    chown radio system /sys/devices/platform/sec-thermistor/temp_adc
+    chown radio system /sys/devices/platform/sec-thermistor/temperature
+
+# Permissions for touch
+    chown system radio /sys/class/sec/tsp/cmd
+
+## Permissions for WACOM
+#    chown system radio /sys/class/sec/sec_epen/epen_firm_update
+#    chown system radio /sys/class/sec/sec_epen/epen_rotation
+#    chown system radio /sys/class/sec/sec_epen/epen_hand
+#    chown system radio /sys/class/sec/sec_epen/epen_reset
+#    chown system radio /sys/class/sec/sec_epen/epen_reset_result
+#    chown system radio /sys/class/sec/sec_epen/epen_checksum
+#    chown system radio /sys/class/sec/sec_epen/epen_checksum_result
+#    chown system radio /sys/class/sec/sec_epen/epen_saving_mode
+## Firmware update
+#    write /sys/class/sec/sec_epen/epen_firm_update R
+
+# Permissions for Touchkey
+  	chown system radio /sys/class/sec/sec_touchkey/enable_disable 
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_brightness
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_menu
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_back
+	chown system radio /sys/class/sec/sec_touchkey/touch_update
+	chown system radio /sys/class/sec/sec_touchkey/touch_version
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_firm_version_panel
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_firm_version_phone
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_firm_update_status
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_firm_update
+	chown system radio /sys/class/sec/sec_touchkey/touch_sensitivity
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_threshold
+	chown system system /sys/devices/virtual/sec/sec_touchkey/brightness
+
+# Permissions for gpio_keys
+    chown radio system /sys/class/sec/sec_key/wakeup_keys 
+    write /sys/class/sec/sec_key/wakeup_keys 116,172,544
+
+# Accy
+    chown radio system /sys/devices/platform/bcmpmu_accy/jiglock	
 
 # Permissions for Camera
     chown system radio /sys/class/camera/rear/rear_camfw
@@ -381,6 +535,52 @@ on fs
     chown system radio /sys/class/camera/rear/isp_core
     chown system radio /sys/class/camera/front/front_camfw
     chown system radio /sys/class/camera/front/front_camtype
+	
+# Switch Device
+    chown system system /sys/class/sec/switch/uart_sel
+    chown system system /sys/class/sec/switch/usb_sel
+    chown system system /sys/class/sec/switch/otg_test
+    chown system radio /sys/class/sec/switch/adc
+
+# Permissions for SVC LED
+#	chown system system /sys/class/sec/led/led_r
+#	chown system system /sys/class/sec/led/led_g
+#	chown system system /sys/class/sec/led/led_b
+#	chown system system /sys/class/leds/led_r/brightness
+#	chown system system /sys/class/leds/led_g/brightness
+#	chown system system /sys/class/leds/led_b/brightness
+#	chown system system /sys/class/leds/led_r/delay_on
+#	chown system system /sys/class/leds/led_g/delay_on
+#	chown system system /sys/class/leds/led_b/delay_on
+#	chown system system /sys/class/leds/led_r/delay_off
+#	chown system system /sys/class/leds/led_g/delay_off
+#	chown system system /sys/class/leds/led_b/delay_off
+#	chown system system /sys/class/leds/led_r/blink
+#	chown system system /sys/class/leds/led_g/blink
+#	chown system system /sys/class/leds/led_b/blink
+	chown system system /sys/class/sec/led/led_pattern
+	chown system system /sys/class/sec/led/led_blink
+	chown system system /sys/class/sec/led/led_br_lev
+	chown system system /sys/class/sec/led/led_lowpower
+
+## Vibetonz
+#    export VIBE_PIPE_PATH /dev/pipes
+#    mkdir /dev/pipes 0771 shell shell
+
+#voice Soulution
+	copy /system/etc/DiamondVoice_NB.txt /data/DiamondVoice_NB.txt
+	chmod 0777 /data/DiamondVoice_NB.txt
+	copy /system/etc/DiamondVoice_WB.txt /data/DiamondVoice_WB.txt
+	chmod 0777 /data/DiamondVoice_WB.txt
+	copy /system/etc/DiamondVoice_Filter_NB.txt /data/DiamondVoice_Filter_NB.txt
+	chmod 0777 /data/DiamondVoice_Filter_NB.txt
+	copy /system/etc/DiamondVoice_Filter_WB.txt /data/DiamondVoice_Filter_WB.txt
+	chmod 0777 /data/DiamondVoice_Filter_WB.txt
+	copy /system/etc/DiamondVoice_SF_Filter_NB.txt /data/DiamondVoice_SF_Filter_NB.txt
+	chmod 0777 /data/DiamondVoice_SF_Filter_NB.txt
+	copy /system/etc/DiamondVoice_SF_Filter_WB.txt /data/DiamondVoice_SF_Filter_WB.txt
+	chmod 0777 /data/DiamondVoice_SF_Filter_WB.txt
+	insmod /system/lib/modules/VoiceSolution.ko	
 	
 #for ASE application
     mkdir /data/brcm
@@ -481,7 +681,8 @@ service setup_fs /system/bin/setup_fs \
 service at_distributor /system/bin/at_distributor
 	class main
 	user root
-	group radio misc log
+	#group radio misc log
+	group root
 
 #bosch sensor deamon
 service sensord /system/bin/sensord
@@ -555,21 +756,21 @@ service iprenew_p2p /system/bin/dhcpcd -n
     disabled
     oneshot
 # Permissions for Camera
-         chmod 220 /sys/class/camera/rear/rear_camfw
-         chmod 220 /sys/class/camera/rear/rear_camtype
+#         chmod 220 /sys/class/camera/rear/rear_camfw
+#         chmod 220 /sys/class/camera/rear/rear_camtype
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
-on property:persist.sys.dataprefer.simid=0
-     write /data/atx/setsim.txt at*msetsim=1
-     chmod 0666 /data/atx/setsim.txt
-     start set_simid
+#on property:persist.sys.dataprefer.simid=0
+#     write /data/atx/setsim.txt at*msetsim=1
+#     chmod 0666 /data/atx/setsim.txt
+#     start set_simid
 
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
-on property:persist.sys.dataprefer.simid=1
-     write /data/atx/setsim.txt at*msetsim=2
-     chmod 0666 /data/atx/setsim.txt
-     start set_simid
+#on property:persist.sys.dataprefer.simid=1
+#     write /data/atx/setsim.txt at*msetsim=2
+#     chmod 0666 /data/atx/setsim.txt
+#     start set_simid
 
 #btld is only used for FM
 # Make sure we startup btld before hcid
@@ -611,7 +812,8 @@ service gpsd /system/bin/glgps -c /system/etc/gps/glconfig.xml
     group system root inet radio wifi sdcard_rw
 
 # Run ATX over UART
-service console /system/bin/atx -l -d
+#service console /system/bin/atx -l -d
+service console_atx /system/bin/atx -l -d
     class main
     console
 #    oneshot
@@ -677,22 +879,22 @@ service battery_charger /charger
     class charger
 
 # Bluetooth LE 2 wired Test
-service LE_dut_cmd_on /system/bin/bttestintf enable
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
+#service LE_dut_cmd_on /system/bin/bttestintf enable
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
 
-service LE_dut_cmd_off /system/bin/bttestintf disable
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
+#service LE_dut_cmd_off /system/bin/bttestintf disable
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
 
-service bttestdaemon /system/bin/bttestd
-    class main
-    user bluetooth
-    group bluetooth net_bt_admin
-    disabled
-    oneshot
+#service bttestdaemon /system/bin/bttestd
+#   class main
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
 
 # SA, System SW, SAMSUNG
 service bugreport /system/bin/bugmailer.sh -v
