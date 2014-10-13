@@ -35,13 +35,13 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/keylayouts/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
 	
 # Audio
+#audio.primary.default \
+#audio.r_submix.default \
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
-	audio.primary.default \
-	audio.r_submix.default \
 	audio.usb.default
 	
-PRODUCT_PACKAGES += libstagefright_avc_common	
+#PRODUCT_PACKAGES += libstagefright_avc_common	
 	
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -92,21 +92,22 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 	persist.service.adb.enable=1
 	
 # Insecure ADBD
+#persist.sys.root_access=3	
 ADDITIONAL_DEFAULT_PROPERTIES += \
-	ro.adb.secure=3 \
-	persist.sys.root_access=3	
+	ro.adb.secure=1 \
 	
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
 # be reachable from resources or other mechanisms.
+# ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
 	ro.telephony.call_ring.multiple=0 \
-    ro.telephony.call_ring=0 \
-    ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc
+    ro.telephony.call_ring=0 
+    
 	
 
 # enable Google-specific location features,
@@ -140,6 +141,10 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
+
+ifeq ($(TARGET_BUILD_VARIANT),user)      
+else      
+endif
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_logan
