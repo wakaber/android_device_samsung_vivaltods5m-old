@@ -19,13 +19,9 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
 	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
-		
+
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/configs/audio_policy.conf:system/etc/audio_policy.conf \
-	device/samsung/logan/configs/default_gain.conf:system/etc/default_gain.conf \
-	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml \
-	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml \
-	device/samsung/logan/configs/tinyucm.conf:system/etc/tinyucm.conf
+	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -33,31 +29,34 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/keylayouts/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
 	device/samsung/logan/keylayouts/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
 	device/samsung/logan/keylayouts/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
-	
-# Audio
-#audio.primary.default \
-#audio.r_submix.default \
-PRODUCT_PACKAGES += \
-	audio.a2dp.default \
-	audio.usb.default
-	
-#PRODUCT_PACKAGES += libstagefright_avc_common	
-	
+
+# Copy Apps
+#PRODUCT_COPY_FILES += \
+#        device/samsung/baffinlite/MultiSIM-Toggle.apk:system/app/MultiSIM-Toggle.apk
+
+# Insecure ADBD
+ADDITIONAL_DEFAULT_PROPERTIES += \
+	ro.adb.secure=3 \
+	persist.sys.root_access=3
+
 # Filesystem management tools
 PRODUCT_PACKAGES += \
-	setup_fs
-	
-# F2FS filesystem
-PRODUCT_PACKAGES += \
+	setup_fs \
 	e2fsck \
 	mkfs.f2fs \
 	fsck.f2fs \
-	fibmap.f2fs \
-	f2fstat	
+	fibmap.f2fs
 
 # Usb accessory
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
+
+# Misc other modules
+PRODUCT_PACKAGES += \
+	audio.a2dp.default \
+	audio.usb.default \
+	audio_policy.hawaii \
+	audio.r_submix.default
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -72,6 +71,7 @@ PRODUCT_PACKAGES += \
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+	frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
 	frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
 	frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
 	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
@@ -81,34 +81,33 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
 	frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
+	frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
+	frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
 	frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
 	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
 	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
-# Dbg	
-ADDITIONAL_DEFAULT_PROPERTIES += \
-	persist.service.adb.enable=1
-	
-# Insecure ADBD
-#persist.sys.root_access=3	
-ADDITIONAL_DEFAULT_PROPERTIES += \
-	ro.adb.secure=1 \
-	
+# Support for Browser's saved page feature. This allows
+# for pages saved on previous versions of the OS to be
+# viewed on the current OS.
+PRODUCT_PACKAGES += \
+    libskia_legacy
+
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
 # be reachable from resources or other mechanisms.
-# ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
-	ro.telephony.call_ring.multiple=0 \
-    ro.telephony.call_ring=0 
-    
-	
+    ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc \
+    persist.radio.multisim.config=dsds \
+    ro.telephony.call_ring.multiple=0 \
+    ro.telephony.call_ring=0 \
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -124,23 +123,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.kernel.android.checkjni=0 \
     dalvik.vm.checkjni=false
 
-# KSM
-#PRODUCT_PROPERTY_OVERRIDES += \
-#    ro.ksm.default=1	
-
 # MTP
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
-# call dalvik heap config
-$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+# Dalvik heap config
+include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 ifeq ($(TARGET_BUILD_VARIANT),user)      
 else      
