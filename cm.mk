@@ -1,5 +1,5 @@
 # Release name
-PRODUCT_RELEASE_NAME := GalaxyAce3
+PRODUCT_RELEASE_NAME := GT-S7270
 
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)

@@ -21,7 +21,8 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
 
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml
+	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml \
+	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -107,7 +108,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc \
     persist.radio.multisim.config=none \
     ro.telephony.call_ring.multiple=0 \
-    ro.telephony.call_ring=0 \
+	cm.updater.uri=http://lanserver.pp.ua/cm/ \
+    ro.telephony.call_ring=0
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector

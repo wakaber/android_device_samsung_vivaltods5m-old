@@ -14,6 +14,9 @@ TARGET_CPU_VARIANT := cortex-a9
 TARGET_CPU_SMP := true
 TARGET_BOOTLOADER_BOARD_NAME := hawaii
 
+# Assert
+TARGET_OTA_ASSERT_DEVICE := logan,S7272,GT-S7272
+
 # Kernel
 BOARD_KERNEL_CMDLINE := 
 #BOARD_KERNEL_CMDLINE := console=ttyS0,115200n8 mem=456M gpt v3d_mem=67108864 pmem=24M@0x9E800000
@@ -34,7 +37,7 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/logan/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/samsung/logan/bluetooth/libbt_vndcfg_i7270.txt
+BOARD_BLUEDROID_VENDOR_CONF := device/samsung/logan/bluetooth/libbt_vndcfg_s7270.txt
 
 # Connectivity - Wi-Fi
 WPA_BUILD_SUPPLICANT := true
@@ -125,3 +128,6 @@ BOARD_SEPOLICY_DIRS += \
 
 BOARD_SEPOLICY_UNION += \
     file_contexts
+	
+# Apps on External SD card
+TARGET_EXTERNAL_APPS = sdcard1	
