@@ -2,8 +2,7 @@ on early-init
     start ueventd
 
 on init
-	sysclktz 0
-	
+
     export PATH /sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
     export LD_LIBRARY_PATH /vendor/lib:/system/lib
     export ANDROID_ROOT /system
@@ -24,7 +23,7 @@ on init
     #mount /tmp /tmp tmpfs   
 
 on early-fs
-	#insmod /lib/modules/vibrator.ko
+	insmod /lib/modules/vibrator.ko
  
     mount ext4 /dev/block/mmcblk0p17 /system ro wait noatime
     exec sfsck /dev/block/mmcblk0p19 ext4
@@ -51,22 +50,35 @@ on boot
 
 	class_start default
 
-	service debuggerd /system/bin/debuggerd
+service debuggerd /system/bin/debuggerd
 
 	service ueventd /sbin/ueventd
     	critical
 
 #service console /bin/sh
-	service console /system/bin/sh
-		console
+service console /system/bin/sh
+	console
 
-	service playlpm /system/bin/playlpm
+service playlpm /system/bin/playlpm
     	user root
 
-	service immvibed /system/bin/immvibed 
-		oneshot
+service immvibed /system/bin/immvibed 
+	oneshot
 
-	service lpmkey /system/bin/lpmkey
+service lpmkey /system/bin/lpmkey
     	user root
-		
-	service battery_charger /charger
+
+# adbd is controlled by the persist.service.adb.enable system property
+service adbd /sbin/adbd
+    disabled
+
+# adbd on at boot in emulator
+on property:ro.kernel.qemu=1
+    start adbd
+
+on property:persist.service.adb.enable=1
+    start adbd
+
+on property:persist.service.adb.enable=0
+    stop adbd
+

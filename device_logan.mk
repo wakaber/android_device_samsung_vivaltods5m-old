@@ -7,6 +7,8 @@ $(call inherit-product-if-exists, vendor/samsung/logan/logan-common-vendor.mk)
 
 # Use high-density artwork where available
 PRODUCT_LOCALES += hdpi
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 
@@ -21,7 +23,6 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
 
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml \
 	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml
 
 # Prebuilt kl keymaps
@@ -36,9 +37,9 @@ PRODUCT_COPY_FILES += \
 #        device/samsung/baffinlite/MultiSIM-Toggle.apk:system/app/MultiSIM-Toggle.apk
 
 # Insecure ADBD
-ADDITIONAL_DEFAULT_PROPERTIES += \
-	ro.adb.secure=3 \
-	persist.sys.root_access=3
+#ADDITIONAL_DEFAULT_PROPERTIES += \
+#	ro.adb.secure=3 \
+#	persist.sys.root_access=3
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -56,7 +57,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio.usb.default \
-	audio_policy.hawaii \
+	audio_policy_logan.hawaii \
 	audio.r_submix.default
 
 # Device-specific packages
@@ -105,11 +106,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
-    ro.cm.hardware.cabc=/sys/class/mdnie/mdnie/cabc \
     persist.radio.multisim.config=none \
-    ro.telephony.call_ring.multiple=0 \
-	cm.updater.uri=http://lanserver.pp.ua/cm/ \
-    ro.telephony.call_ring=0
+    cm.updater.uri=http://lanserver.pp.ua/cm/
+    
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -142,6 +141,9 @@ ifeq ($(TARGET_BUILD_VARIANT),user)
 else      
 endif
 
+PRODUCT_PROPERTY_OVERRIDES += \
+	ro.cm.display.version=ZIM-$(BUILD_VERSION)-$(LUNCH)-$(BUILD_NUMBER) \
+	
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_logan
 PRODUCT_DEVICE := logan
