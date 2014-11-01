@@ -14,7 +14,7 @@ ro.lcd_min_brightness=20
 
 # MultiTouch support
 ro.product.multi_touch_enabled=true
-ro.product.max_num_touch=5
+ro.product.max_num_touch=2
 
 # system prop for FM Radio SNR
 #

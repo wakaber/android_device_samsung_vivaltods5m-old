@@ -106,7 +106,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
-    persist.radio.multisim.config=none \
+    #persist.radio.multisim.config=none \
     cm.updater.uri=http://lanserver.pp.ua/cm/
     
 
@@ -142,7 +142,7 @@ else
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.cm.display.version=ZIM-$(BUILD_VERSION)-$(LUNCH)-$(BUILD_NUMBER) \
+	ro.cm.display.version=$(BUILD_VERSION)-$(LUNCH)-$(BUILD_NUMBER)
 	
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_logan

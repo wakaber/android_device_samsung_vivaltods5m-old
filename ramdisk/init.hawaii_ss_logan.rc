@@ -5,6 +5,11 @@ on early-init
     mkdir /efs 0771 radio system
 
 on init
+	# May not need
+	mkdir /tmp
+	mount tmpfs tmpfs /tmp
+	chmod 1775 /tmp
+
     # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage/emulated 0555 root root
@@ -22,6 +27,8 @@ on init
     export SECONDARY_STORAGE /storage/sdcard1
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
     mkdir /storage/sdcard1 0700 root root
+	mkdir /mnt/media_rw/usbdisk0 0700 media_rw media_rw
+    mkdir /storage/usbdisk0 0700 root root
 
 # To store widevine keybox
     symlink /data/app /factory
@@ -64,8 +71,8 @@ on post-fs-data
  # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
     chown bluetooth net_bt_stack ro.bt.bdaddr_path
-	chown bluetooth net_bt_stack /dev/ttyS3
-    chmod 0600 /dev/ttyS3
+	chown bluetooth net_bt_stack /dev/ttyS0
+    chmod 0600 /dev/ttyS0
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
@@ -155,6 +162,60 @@ on post-fs-data
 # for adb
     chmod 0775 /system/etc/usbdev.sh
     chmod 0775 /system/etc/startadb.sh
+	
+#[ SEC_MM_DRM
+
+    # [ save OMA DB, when upgrading from GB to ICS    
+    # belows will be removed at KLP
+    mkdir /data/system/databases 0771 system system
+    copy /data/data/com.sec.android.providers.drm/databases/drmdatabase.db /data/system/databases/drmdatabase.db
+    chown system system /data/system/databases/drmdatabase.db
+    chmod 0774 /data/system/databases/drmdatabase.db	
+    # ]
+
+	#DRM directory creation
+    mkdir /system/etc/security/.drm 0775
+    chown root root /system/etc/security/.drm
+    chmod 0775 /system/etc/security/.drm
+
+    # Added for Playready DRM Support
+    mkdir /data/data/.drm 0775
+    chown drm system /data/data/.drm
+    chmod 0775 /data/data/.drm
+    mkdir /data/data/.drm/.playready 0775
+    chown drm system /data/data/.drm/.playready
+    chmod 0775 /data/data/.drm/.playready
+
+#    # TZPR 1
+#    mkdir /system/etc/security/.drm/ext1 0775
+#    chown root root /system/etc/security/.drm/ext1
+#    chmod 0775 /system/etc/security/.drm/ext1
+
+    # TZPR 2
+#    mkdir /efs/drm 0775
+#    chown drm system /efs/drm
+#    chmod 0775 /efs/drm
+#    mkdir /efs/drm/playready 0775
+#    chown drm system /efs/drm/playready
+#    chmod 0775 /efs/drm/playready
+
+    #Added drm folder to copy drm plugins
+    mkdir /system/lib/drm 0775
+    chown root root /system/lib/drm
+    chmod 0775 /system/lib/drm
+
+    # DivX DRM
+    mkdir /efs/.files 0775
+    mkdir /efs/.files/.dx1 0775
+    mkdir /efs/.files/.dm33 0775
+    mkdir /efs/.files/.mp301 0775
+    chown media system /efs/.files/.dx1
+    chown media system /efs/.files/.dm33
+    chown media system /efs/.files/.mp301
+    chmod 0775 /efs/.files/.dx1
+    chmod 0775 /efs/.files/.dm33
+    chmod 0775 /efs/.files/.mp301    
+#]
 
 on boot
 # SISO-ANDR_PERF :: START Changing scheduler to noop during boot
@@ -222,11 +283,6 @@ on boot
 #    chmod 0660 /dev/tspdrv
 #    chown root shell /dev/tspdrv
 
-# fusewrapped external sdcard daemon running as media_rw (1023)
-service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
-    class late_start
-    disabled
-
 # required so RIL can open kernel RPC drivers
     chmod 0660 /dev/bcm_rpc
     chmod 0660 /dev/bcm_irpc
@@ -247,6 +303,8 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
     chown system system /dev/ttyS0
     chown system system /dev/ttyS2
     chmod 0666 /dev/ttyS2
+	
+	chmod 0644 /proc/cmdline
 
 # GPS UART
     chown system system /dev/ttyS1
@@ -297,7 +355,7 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
 
 
 # Enable dithering algorithm
-    setprop fb.force.dithering 1
+    #setprop fb.force.dithering 1
 
 # permissions for gps.
 	mkdir /data/gps 0770 gps system
@@ -324,8 +382,8 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
     chown radio radio /dev/bcm_gps
 
 #for bluetooth. permission for host interface
-    chown root bluetooth /dev/ttyS3
-    chmod 0777 /dev/ttyS3
+    chown root bluetooth /dev/ttyS0
+    chmod 0777 /dev/ttyS0
     
 #for fm radio    
     copy /system/etc/local.prop /data/local.prop
@@ -349,7 +407,7 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
 
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1
-
+	
 #    # for multi csc
     chown radio radio /proc/LinuStoreIII/efs_info 
     chmod 0664 /proc/LinuStoreIII/efs_info
@@ -497,21 +555,6 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
 #    export VIBE_PIPE_PATH /dev/pipes
 #    mkdir /dev/pipes 0771 shell shell
 
-#voice Soulution
-	copy /system/etc/DiamondVoice_NB.txt /data/DiamondVoice_NB.txt
-	chmod 0777 /data/DiamondVoice_NB.txt
-	copy /system/etc/DiamondVoice_WB.txt /data/DiamondVoice_WB.txt
-	chmod 0777 /data/DiamondVoice_WB.txt
-	copy /system/etc/DiamondVoice_Filter_NB.txt /data/DiamondVoice_Filter_NB.txt
-	chmod 0777 /data/DiamondVoice_Filter_NB.txt
-	copy /system/etc/DiamondVoice_Filter_WB.txt /data/DiamondVoice_Filter_WB.txt
-	chmod 0777 /data/DiamondVoice_Filter_WB.txt
-	copy /system/etc/DiamondVoice_SF_Filter_NB.txt /data/DiamondVoice_SF_Filter_NB.txt
-	chmod 0777 /data/DiamondVoice_SF_Filter_NB.txt
-	copy /system/etc/DiamondVoice_SF_Filter_WB.txt /data/DiamondVoice_SF_Filter_WB.txt
-	chmod 0777 /data/DiamondVoice_SF_Filter_WB.txt
-	#insmod /system/lib/modules/VoiceSolution.ko
-
 # wifi display
     write /proc/sys/net/core/rmem_max   1048576
     write /proc/sys/net/core/wmem_max   2097152
@@ -652,7 +695,8 @@ service setup_fs /system/bin/setup_fs \
 service at_distributor /system/bin/at_distributor
 	class main
 	user root
-	group radio misc log
+	#group radio misc log
+	group radio misc log root
 
 #bosch sensor deamon
 service sensord /system/bin/sensord
@@ -667,7 +711,8 @@ service hawaii-ril-daemon /system/bin/rild
     socket rild1 stream 660 root radio
     socket rild-debug stream 660 radio system
     user root
-    group radio cache inet misc audio system sdcard_rw log sdcard_r
+    #group radio cache inet misc audio system sdcard_rw log sdcard_r
+	group radio cache inet misc audio system sdcard_rw log sdcard_r root
 #    onrestart restart cpboot-daemon
 
 # create virtual SD card at /mnt/sdcard, based on the /data/media directory
@@ -786,8 +831,10 @@ service console /system/bin/atx -l -d
     class main
     console
 #    oneshot
-    user system
-    group vpn net_admin net_raw radio system sdcard_rw log mount
+    #user system
+    #group vpn net_admin net_raw radio system sdcard_rw log mount
+	user root
+	group vpn net_admin net_raw radio system sdcard_rw log mount root
 
 # Kexec enable
 service kexec /system/kexec/kexec.sh
@@ -798,22 +845,27 @@ service bkmgrd /system/bin/bkmgrd
     class main
     oneshot
     user root
-    group radio system log
+    #group radio system log
+	group radio system log root
 
 # Run usb_portd to automatically launch atx when USB configuration changes.
 service usb_portd /system/bin/usb_portd
     class main
 #    oneshot
-    user system
-    group input vpn net_admin net_raw radio system sdcard_rw log mount
+    #user system
+    #group input vpn net_admin net_raw radio system sdcard_rw log mount
+	user root
+    group input vpn net_admin net_raw radio system sdcard_rw log mount root
 
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
 service set_simid /system/bin/atx --fordev=ACM --runcmd=/data/atx/setsim.txt
     disabled
     oneshot
-    user system
-    group input vpn net_admin net_raw radio system sdcard_rw log mount
+    #user system
+    #group input vpn net_admin net_raw radio system sdcard_rw log mount
+	user root
+	group input vpn net_admin net_raw radio system sdcard_rw log mount root
 
 #Indicate boot complete to PM to complete PM initialization
 on property:dev.bootcomplete=1
@@ -872,3 +924,11 @@ service battery_charger /charger
 
 on property:ro.dumpstate.dmesg=1
     write /proc/sys/kernel/dmesg_restrict 0	
+# fusewrapped external sdcard daemon running as media_rw (1023)
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
+    class late_start
+    disabled
+
+service fuse_usbdisk0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbdisk0 /storage/usbdisk0
+    class late_start
+    disabled
