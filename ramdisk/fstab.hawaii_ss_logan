@@ -15,4 +15,4 @@
 # vold-managed volumes ("block device" is actually a sysfs devpath)
 /devices/platform/sdhci.0/mmc_host/mmc2       auto  			auto     defaults                                                    voldmanaged=sdcard1:auto
 /devices/platform/sdhci.0/mmc_host/mmc2       auto  			auto     defaults                                                    voldmanaged=sdcard2:auto
-/devices/platform/sdhci.2/mmc_host/mmc1 	  auto              auto     defaults                                                    voldmanaged=usbdisk0:auto
+#/devices/platform/dwc_otg/usb1 	  		  auto              auto     defaults                                                    voldmanaged=usbdisk:auto

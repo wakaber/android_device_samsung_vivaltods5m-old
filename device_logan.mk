@@ -15,6 +15,7 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
 # Init files
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/fstab.hawaii_ss_logan:root/fstab.hawaii_ss_logan \
+	device/samsung/logan/ramdisk/init.rc:root/init.rc \
 	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
@@ -23,7 +24,9 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
 
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml
+	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml \
+	device/samsung/logan/configs/audio_policy.conf:system/etc/audio_policy.conf \
+	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml 
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -106,10 +109,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
-    #persist.radio.multisim.config=none \
-    cm.updater.uri=http://lanserver.pp.ua/cm/
+	cm.updater.uri=http://lanserver.pp.ua/cm/ \
+    #persist.radio.multisim.config=none
     
-
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -142,7 +144,7 @@ else
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-	ro.cm.display.version=$(BUILD_VERSION)-$(LUNCH)-$(BUILD_NUMBER)
+	ro.cm.display.version=$(BUILD_VERSION)-$(LUNCH)-BUILD 2
 	
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_logan
