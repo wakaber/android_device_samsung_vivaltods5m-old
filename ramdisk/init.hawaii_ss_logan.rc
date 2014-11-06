@@ -73,8 +73,8 @@ on post-fs-data
  # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
     chown bluetooth net_bt_stack ro.bt.bdaddr_path
-	chown bluetooth net_bt_stack /dev/ttyS0
-    chmod 0600 /dev/ttyS0
+	chown bluetooth net_bt_stack /dev/ttyS3
+    chmod 0600 /dev/ttyS3
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
@@ -220,8 +220,8 @@ on post-fs-data
 #]
 
 # MTP permission
-	chmod 0660 /dev/usb_mtp_gadget
-	chown system system /dev/usb_mtp_gadget
+	#chmod 0660 /dev/usb_mtp_gadget
+	#chown system system /dev/usb_mtp_gadget
 
 on boot
 # SISO-ANDR_PERF :: START Changing scheduler to noop during boot
@@ -388,8 +388,8 @@ on boot
     chown radio radio /dev/bcm_gps
 
 #for bluetooth. permission for host interface
-    chown root bluetooth /dev/ttyS0
-    chmod 0777 /dev/ttyS0
+    chown root bluetooth /dev/ttyS3
+    chmod 0777 /dev/ttyS3
     
 #for fm radio    
     copy /system/etc/local.prop /data/local.prop
