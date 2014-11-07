@@ -73,8 +73,8 @@ on post-fs-data
  # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
     chown bluetooth net_bt_stack ro.bt.bdaddr_path
-	chown bluetooth net_bt_stack /dev/ttyS3
-    chmod 0600 /dev/ttyS3
+	chown bluetooth net_bt_stack /dev/ttyS0
+    chmod 0600 /dev/ttyS0
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
@@ -83,12 +83,6 @@ on post-fs-data
     write /data/.psm.info 1
     chown system root /data/.psm.info
     chmod 0660 /data/.psm.info
-
-# for control LCD backlight
-#    chown system system /sys/class/backlight/hw-backlight/brightness
-#    chmod 0660 /sys/class/backlight/hw-backlight/brightness
-#    chown system system /sys/class/backlight/pwm-backlight/brightness
-#    chmod 0660 /sys/class/backlight/pwm-backlight/brightness
 
     chown system system /sys/class/backlight/panel/brightness
     chmod 0660 /sys/class/backlight/panel/brightness
@@ -164,60 +158,6 @@ on post-fs-data
 # for adb
     chmod 0775 /system/etc/usbdev.sh
     chmod 0775 /system/etc/startadb.sh
-	
-#[ SEC_MM_DRM
-
-    # [ save OMA DB, when upgrading from GB to ICS    
-    # belows will be removed at KLP
-    mkdir /data/system/databases 0771 system system
-    copy /data/data/com.sec.android.providers.drm/databases/drmdatabase.db /data/system/databases/drmdatabase.db
-    chown system system /data/system/databases/drmdatabase.db
-    chmod 0774 /data/system/databases/drmdatabase.db	
-    # ]
-
-	#DRM directory creation
-    mkdir /system/etc/security/.drm 0775
-    chown root root /system/etc/security/.drm
-    chmod 0775 /system/etc/security/.drm
-
-    # Added for Playready DRM Support
-    mkdir /data/data/.drm 0775
-    chown drm system /data/data/.drm
-    chmod 0775 /data/data/.drm
-    mkdir /data/data/.drm/.playready 0775
-    chown drm system /data/data/.drm/.playready
-    chmod 0775 /data/data/.drm/.playready
-
-#    # TZPR 1
-#    mkdir /system/etc/security/.drm/ext1 0775
-#    chown root root /system/etc/security/.drm/ext1
-#    chmod 0775 /system/etc/security/.drm/ext1
-
-    # TZPR 2
-#    mkdir /efs/drm 0775
-#    chown drm system /efs/drm
-#    chmod 0775 /efs/drm
-#    mkdir /efs/drm/playready 0775
-#    chown drm system /efs/drm/playready
-#    chmod 0775 /efs/drm/playready
-
-    #Added drm folder to copy drm plugins
-    mkdir /system/lib/drm 0775
-    chown root root /system/lib/drm
-    chmod 0775 /system/lib/drm
-
-    # DivX DRM
-    mkdir /efs/.files 0775
-    mkdir /efs/.files/.dx1 0775
-    mkdir /efs/.files/.dm33 0775
-    mkdir /efs/.files/.mp301 0775
-    chown media system /efs/.files/.dx1
-    chown media system /efs/.files/.dm33
-    chown media system /efs/.files/.mp301
-    chmod 0775 /efs/.files/.dx1
-    chmod 0775 /efs/.files/.dm33
-    chmod 0775 /efs/.files/.mp301    
-#]
 
 # MTP permission
 	#chmod 0660 /dev/usb_mtp_gadget
@@ -234,11 +174,6 @@ on boot
 
     chown system system /sys/devices/platform/panel/backlight/panel/brightness
     mount debugfs /sys/kernel/debug /sys/kernel/debug
-
-## mobicore
-#    mkdir /data/app/mcRegistry 0775 system system    
-#    chmod 0660 /dev/mobicore
-#    chown radio system /dev/mobicore
 
 # WIFI
     setprop wifi.interface wlan0
@@ -274,21 +209,6 @@ on boot
     chmod 0660 /sys/class/sensors/magnetic_sensor/selftest
     chmod 0660 /sys/class/sensors/magnetic_sensor/op_mode
 	
-# permissions for NFC - BRCM
-#    setprop ro.nfc.port "I2C"
-#    chmod 0666 /dev/bcm2079x
-#    chown nfc nfc /dev/bcm2079x
-#    mkdir /data/bcmnfc
-#    mkdir /data/bcmnfc/param
-#    chmod 0755 /data/bcmnfc
-#    chmod 0755 /data/bcmnfc/param
-#    chown nfc nfc /data/bcmnfc
-#    chown nfc nfc /data/bcmnfc/param
-
-## Vibetonz
-#    chmod 0660 /dev/tspdrv
-#    chown root shell /dev/tspdrv
-
 # required so RIL can open kernel RPC drivers
     chmod 0660 /dev/bcm_rpc
     chmod 0660 /dev/bcm_irpc
@@ -388,8 +308,8 @@ on boot
     chown radio radio /dev/bcm_gps
 
 #for bluetooth. permission for host interface
-    chown root bluetooth /dev/ttyS3
-    chmod 0777 /dev/ttyS3
+    chown root bluetooth /dev/ttyS0
+    chmod 0777 /dev/ttyS0
     
 #for fm radio    
     copy /system/etc/local.prop /data/local.prop
@@ -414,22 +334,6 @@ on boot
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1
 	
-#    # for multi csc
-    chown radio radio /proc/LinuStoreIII/efs_info 
-    chmod 0664 /proc/LinuStoreIII/efs_info
-#    # for protecting key string
-    chown radio radio /proc/LinuStoreIII/keystr 
-    chmod 0664 /proc/LinuStoreIII/keystr
-#    # for ril_prop
-    chown radio radio /proc/LinuStoreIII/ril_prop 
-    chmod 0664 /proc/LinuStoreIII/ril_prop
-#    # for fsbuild_check
-    chown radio radio /proc/LinuStoreIII/fsbuild_check 
-    chmod 0664 /proc/LinuStoreIII/fsbuild_check
-#    # for recovery_opts
-    chown system radio /proc/LinuStoreIII/recovery_opts 
-    chmod 0664 /proc/LinuStoreIII/recovery_opts
-
 # Audio (Earjack)
     chown system radio /sys/class/audio/earjack/select_jack
     chown system radio /sys/class/audio/earjack/key_state
@@ -537,29 +441,10 @@ on boot
     chown system radio /sys/class/sec/switch/adc
 
 # Permissions for SVC LED
-#	chown system system /sys/class/sec/led/led_r
-#	chown system system /sys/class/sec/led/led_g
-#	chown system system /sys/class/sec/led/led_b
-#	chown system system /sys/class/leds/led_r/brightness
-#	chown system system /sys/class/leds/led_g/brightness
-#	chown system system /sys/class/leds/led_b/brightness
-#	chown system system /sys/class/leds/led_r/delay_on
-#	chown system system /sys/class/leds/led_g/delay_on
-#	chown system system /sys/class/leds/led_b/delay_on
-#	chown system system /sys/class/leds/led_r/delay_off
-#	chown system system /sys/class/leds/led_g/delay_off
-#	chown system system /sys/class/leds/led_b/delay_off
-#	chown system system /sys/class/leds/led_r/blink
-#	chown system system /sys/class/leds/led_g/blink
-#	chown system system /sys/class/leds/led_b/blink
 	chown system system /sys/class/sec/led/led_pattern
 	chown system system /sys/class/sec/led/led_blink
 	chown system system /sys/class/sec/led/led_br_lev
 	chown system system /sys/class/sec/led/led_lowpower
-
-## Vibetonz
-#    export VIBE_PIPE_PATH /dev/pipes
-#    mkdir /dev/pipes 0771 shell shell
 
 # Init Compcache taejin5.park
     chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
@@ -582,13 +467,6 @@ on fs
 
     # don't require sim
     setprop keyguard.no_require_sim 1
-
-    #j4fs module
-#    insmod /system/lib/modules/j4fs.ko
-#    mount j4fs /dev/block/mmcblk0p11 /mnt/.lfs 
-
-    #SEC_PARAM
-#    insmod sec_param.ko
 
 # For NV Read/Write 
 	chown radio system /dev/block/mmcblk0p1    
@@ -670,14 +548,6 @@ on property:persist.sys.storage_preload=1
 
 on property:persist.sys.storage_preload=0
     exec /system/bin/umount /preload   
-
-## Daemon processes to be run by init.
-##
-#service console /system/bin/sh
-#    class core
-#    console
-#    disabled
-#    group log
 
 on property:ro.debuggable=1
     start console
@@ -888,7 +758,6 @@ on property:dev.bootcomplete=1
 	write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay 6000
 	write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 15000
 	write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 2000
-
 
 # adb
 service startadb /system/etc/startadb.sh
