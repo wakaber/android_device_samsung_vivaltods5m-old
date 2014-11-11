@@ -98,7 +98,7 @@ TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
-#BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/lp_charging
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/lp_charging
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/samsung/logan/ril/
