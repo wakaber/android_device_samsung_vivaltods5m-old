@@ -39,18 +39,9 @@ PRODUCT_COPY_FILES += \
 #PRODUCT_COPY_FILES += \
 #        device/samsung/baffinlite/MultiSIM-Toggle.apk:system/app/MultiSIM-Toggle.apk
 
-# Insecure ADBD
-#ADDITIONAL_DEFAULT_PROPERTIES += \
-#	ro.adb.secure=3 \
-#	persist.sys.root_access=3
-
 # Filesystem management tools
 PRODUCT_PACKAGES += \
-	setup_fs \
-	e2fsck \
-	mkfs.f2fs \
-	fsck.f2fs \
-	fibmap.f2fs
+	setup_fs
 
 # Usb accessory
 PRODUCT_PACKAGES += \
@@ -60,8 +51,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio.usb.default \
-	audio_policy_logan.hawaii \
-	audio.r_submix.default
+	audio.r_submix.default \
+	audio_policy_logan.hawaii
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -92,7 +83,6 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
 	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
 # Support for Browser's saved page feature. This allows

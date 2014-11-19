@@ -1,6 +1,5 @@
 on early-init
     start ueventd
-	#write /sys/class/power_supply/battery/batt_lp_charging 1
 	
 on init
 
@@ -17,5 +16,5 @@ on boot
 	service ueventd /sbin/ueventd
     	critical
 
-	#service battery_charger /charger
+	service battery_charger /charger
 
