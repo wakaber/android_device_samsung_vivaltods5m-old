@@ -2,10 +2,10 @@ import init.bcm2166x.usb.rc
 import init.log.rc
 
 on early-init
-	loglevel 9
     mkdir /efs 0771 radio system
 
 on init
+	
     # See storage config details at http://source.android.com/tech/storage/
 	# SD Card 0
     mkdir /mnt/shell/emulated 0700 shell shell
@@ -36,17 +36,26 @@ on init
     #symlink /storage/usbdisk /mnt/usbdisk
 
 # To store widevine keybox
-    
+    symlink /data/app /factory
+
     symlink /efs /factory
+
     symlink /dev/block/mmcblk0p11 /dev/block/param    
 
+    mkdir /preload 0771 system system 
+	
 on post-fs-data
 # we will remap this as /storage/sdcard with the sdcard fuse tool
     mkdir /data/media 0770 media_rw media_rw
     chown media_rw media_rw /data/media
 
 # SA, System SW, SAMSUNG create log directory
+    mkdir /data/log 0775 system log
+    chown system log /data/log
     setprop vold.post_fs_data_done 1
+
+    chmod 0775 /data/log
+    chmod 0775 /data/anr
 
     #for wifi
     mkdir /efs/wifi 0775 radio system
@@ -55,7 +64,7 @@ on post-fs-data
     mkdir /data/misc/wifi 0775 wifi system
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/dhcp 0775 dhcp dhcp
-    #mkdir /system/etc/wifi 0775 wifi wifi
+    mkdir /system/etc/wifi 0775 wifi wifi
     chown system system /efs/wifi/.mac.info
     chmod 0664 /efs/wifi/.mac.info
     chown system system /efs/imei/.nvmac.info
@@ -150,6 +159,10 @@ on post-fs-data
     chmod 0775 /system/etc/usbdev.sh
     chmod 0775 /system/etc/startadb.sh
 
+# MTP permission
+	#chmod 0660 /dev/usb_mtp_gadget
+	#chown system system /dev/usb_mtp_gadget
+
 on boot
 # SISO-ANDR_PERF :: START Changing scheduler to noop during boot
     write /sys/block/mmcblk0/queue/scheduler noop
@@ -228,6 +241,7 @@ on boot
 # Video Telephony
     chmod 0666 /dev/bcm_vsp
 
+
 # allow user space (atx) access to kernel pm debug
     chown system system /sys/module/pm_dbg/parameters/debug
     chmod 0660 /sys/module/pm_dbg/parameters/debug
@@ -301,25 +315,24 @@ on boot
     copy /system/etc/local.prop /data/local.prop
     chown system bluetooth /data/local.prop
     chmod 0660 /data/local.prop
+#    setprop service.brcm.bt.patchfile /system/bin/BCM2076B1_xxx.hcd
+# permissions for FMRadio of Broadcom
+#    chmod 0777 /system/bin/btld
+
+# permission for FMRadion Intenna
+#    write /sys/class/gpio/export 92
+#    chown system system /sys/class/gpio/gpio92/value
+#    chown system system /sys/class/gpio/gpio92/direction
+#    write /sys/class/gpio/gpio92/value 0
+#    write /sys/class/gpio/gpio92/direction out
+#    write /sys/class/gpio/export 56
+#    chown system system /sys/class/gpio/gpio56/value
+#    chown system system /sys/class/gpio/gpio56/direction
+#    write /sys/class/gpio/gpio56/value 0
+#    write /sys/class/gpio/gpio56/direction out
 
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1
-
-# for multi csc
-    chown radio radio /proc/LinuStoreIII/efs_info
-    chmod 0664 /proc/LinuStoreIII/efs_info
-    # for protecting key string
-    chown radio radio /proc/LinuStoreIII/keystr
-    chmod 0664 /proc/LinuStoreIII/keystr
-    # for ril_prop
-    chown radio radio /proc/LinuStoreIII/ril_prop
-    chmod 0664 /proc/LinuStoreIII/ril_prop
-    # for fsbuild_check
-    chown radio radio /proc/LinuStoreIII/fsbuild_check
-    chmod 0664 /proc/LinuStoreIII/fsbuild_check
-    # for recovery_opts
-    chown system radio /proc/LinuStoreIII/recovery_opts
-    chmod 0664 /proc/LinuStoreIII/recovery_opts
 	
 # Audio (Earjack)
     chown system radio /sys/class/audio/earjack/select_jack
@@ -376,6 +389,18 @@ on boot
 # Permissions for touch
     chown system radio /sys/class/sec/tsp/cmd
 
+## Permissions for WACOM
+#    chown system radio /sys/class/sec/sec_epen/epen_firm_update
+#    chown system radio /sys/class/sec/sec_epen/epen_rotation
+#    chown system radio /sys/class/sec/sec_epen/epen_hand
+#    chown system radio /sys/class/sec/sec_epen/epen_reset
+#    chown system radio /sys/class/sec/sec_epen/epen_reset_result
+#    chown system radio /sys/class/sec/sec_epen/epen_checksum
+#    chown system radio /sys/class/sec/sec_epen/epen_checksum_result
+#    chown system radio /sys/class/sec/sec_epen/epen_saving_mode
+## Firmware update
+#    write /sys/class/sec/sec_epen/epen_firm_update R
+
 # Permissions for Touchkey
   	chown system radio /sys/class/sec/sec_touchkey/enable_disable 
 	chown system radio /sys/class/sec/sec_touchkey/touchkey_brightness
@@ -410,6 +435,9 @@ on boot
     chmod 0660 /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
 
 # Switch Device
+    chown system system /sys/class/sec/switch/uart_sel
+    chown system system /sys/class/sec/switch/usb_sel
+    chown system system /sys/class/sec/switch/otg_test
     chown system radio /sys/class/sec/switch/adc
 
 # Permissions for SVC LED
@@ -443,6 +471,8 @@ on fs
 # For NV Read/Write 
 	chown radio system /dev/block/mmcblk0p1    
 	chmod 0770 /dev/block/mmcblk0p1
+
+	chmod 6755 /system/xbin/su
 
 #for ASE application
     mkdir /data/brcm
@@ -511,6 +541,14 @@ on fs
 on post-fs
     chown radio system /efs
     chmod 0771 /efs
+
+on property:persist.sys.storage_preload=1
+    mount ext4 /dev/block/mmcblk0p18 /preload nosuid nodev noatime wait ro
+    setprop storage.preload.complete 1
+
+on property:persist.sys.storage_preload=0
+    exec /system/bin/umount /preload   
+
 on property:ro.debuggable=1
     start console
 
@@ -527,8 +565,8 @@ service setup_fs /system/bin/setup_fs \
 service at_distributor /system/bin/at_distributor
 	class main
 	user root
-	group root
-	oneshot
+	#group radio misc log
+	group radio misc log root
 
 #bosch sensor deamon
 service sensord /system/bin/sensord
@@ -602,21 +640,32 @@ service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
-
-# Bluetooth PAN
-service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
-	class main
-	disabled
-	oneshot
-
-service iprenew_bt-pan /system/bin/dhcpcd -n
-    class main
-    disabled
-    oneshot
-
 # Permissions for Camera
-    chmod 220 /sys/class/camera/rear/rear_camfw
-    chmod 220 /sys/class/camera/rear/rear_camtype
+         chmod 220 /sys/class/camera/rear/rear_camfw
+         chmod 220 /sys/class/camera/rear/rear_camtype
+# When the default SIM for data connections is updated,
+# also update the DUN AT channel with the default SIM.
+on property:persist.sys.dataprefer.simid=0
+     write /data/atx/setsim.txt at*msetsim=1
+     chmod 0666 /data/atx/setsim.txt
+     start set_simid
+
+# When the default SIM for data connections is updated,
+# also update the DUN AT channel with the default SIM.
+on property:persist.sys.dataprefer.simid=1
+     write /data/atx/setsim.txt at*msetsim=2
+     chmod 0666 /data/atx/setsim.txt
+     start set_simid
+
+#btld is only used for FM
+# Make sure we startup btld before hcid
+#service btld /system/bin/logwrapper /system/bin/btld -hb 3000000 -hp /dev/ttyS1 -lpm 0 -nice -7
+#service btld /system/bin/logwrapper /system/bin/btld -lpm 0 ;; low power mode on(1), off(0)
+#service btld /system/bin/logwrapper /system/bin/btld -lpm 1
+#    user root
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
 
 #for WiFi MFG(TestMode)
 service mfgloader /system/bin/mfgloader
@@ -648,11 +697,14 @@ service gpsd /system/bin/glgps -c /system/etc/gps/glconfig.xml
     group system root inet radio wifi sdcard_rw
 
 # Run ATX over UART
-service console_atx /system/bin/atx -l -d
+service console /system/bin/atx -l -d
     class main
     console
-	user system
-    group vpn net_admin net_raw radio system sdcard_rw log mount
+#    oneshot
+    #user system
+    #group vpn net_admin net_raw radio system sdcard_rw log mount
+	user root
+	group vpn net_admin net_raw radio system sdcard_rw log mount root
 
 # Kexec enable
 service kexec /system/kexec/kexec.sh
@@ -663,7 +715,27 @@ service bkmgrd /system/bin/bkmgrd
     class main
     oneshot
     user root
-    group radio system log
+    #group radio system log
+	group radio system log root
+
+# Run usb_portd to automatically launch atx when USB configuration changes.
+service usb_portd /system/bin/usb_portd
+    class main
+#    oneshot
+    #user system
+    #group input vpn net_admin net_raw radio system sdcard_rw log mount
+	user root
+    group input vpn net_admin net_raw radio system sdcard_rw log mount root
+
+# When the default SIM for data connections is updated,
+# also update the DUN AT channel with the default SIM.
+service set_simid /system/bin/atx --fordev=ACM --runcmd=/data/atx/setsim.txt
+    disabled
+    oneshot
+    #user system
+    #group input vpn net_admin net_raw radio system sdcard_rw log mount
+	user root
+	group input vpn net_admin net_raw radio system sdcard_rw log mount root
 
 #Indicate boot complete to PM to complete PM initialization
 on property:dev.bootcomplete=1
@@ -691,14 +763,41 @@ on property:dev.bootcomplete=1
 service startadb /system/etc/startadb.sh
 	oneshot
 
+service battery_charger /charger
+    class charger
+
+# Bluetooth LE 2 wired Test
+#service LE_dut_cmd_on /system/bin/bttestintf enable
+#   group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+#service LE_dut_cmd_off /system/bin/bttestintf disable
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+#service bttestdaemon /system/bin/bttestd
+#    class main
+#    user bluetooth
+#    group bluetooth net_bt_admin
+#    disabled
+#    oneshot
+
+# SA, System SW, SAMSUNG
+#service bugreport /system/bin/bugmailer.sh -v
+#    class main
+#    disabled
+#    oneshot
+#    keycodes 114 115 116
+
 on property:ro.dumpstate.dmesg=1
     write /proc/sys/kernel/dmesg_restrict 0	
-
 # fusewrapped external sdcard daemon running as media_rw (1023)
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
     disabled
-	
+
 #service fuse_usbdisk0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbdisk0 /storage/usbdisk0
 #    class late_start
 #    disabled
