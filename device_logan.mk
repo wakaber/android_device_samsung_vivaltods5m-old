@@ -46,12 +46,8 @@ PRODUCT_COPY_FILES += \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
-	setup_fs \
-	e2fsck \
-	mkfs.f2fs \
-	fsck.f2fs \
-	fibmap.f2fs
-
+	setup_fs 
+	
 # Usb accessory
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
@@ -59,9 +55,9 @@ PRODUCT_PACKAGES += \
 # Misc other modules
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
-	audio.usb.default \
-	audio_policy_logan.hawaii \
-	audio.r_submix.default
+	audio.usb.default \ 
+	audio.r_submix.default \
+	audio_policy.hawaii
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -148,3 +144,4 @@ endif
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 PRODUCT_NAME := full_logan
 PRODUCT_DEVICE := logan
+PRODUCT_MODEL := GT-S7270
