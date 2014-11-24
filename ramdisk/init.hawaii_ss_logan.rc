@@ -2,7 +2,7 @@ import init.bcm2166x.usb.rc
 import init.log.rc
 
 on early-init
-	loglevel 9
+	#loglevel 9
     mkdir /efs 0771 radio system
 
 on init
@@ -263,7 +263,7 @@ on boot
 
 # BCMPMU drivers
     chown -R system system /sys/devices/platform/bcmpmu*/*
-
+# */
 # change owner of mtest system to allow atx/atxd to write this file:
     chown system system /sys/kernel/sysrpc/mtest
 
@@ -336,53 +336,53 @@ on boot
     setprop ro.multisim.simslotcount 1
 	
 # for multi csc
-    chown radio radio /proc/LinuStoreIII/efs_info 
-    chmod 0664 /proc/LinuStoreIII/efs_info
+ #   chown radio radio /proc/LinuStoreIII/efs_info 
+ #   chmod 0664 /proc/LinuStoreIII/efs_info
     # for protecting key string
-    chown radio radio /proc/LinuStoreIII/keystr 
-    chmod 0664 /proc/LinuStoreIII/keystr
+#    chown radio radio /proc/LinuStoreIII/keystr 
+#    chmod 0664 /proc/LinuStoreIII/keystr
     # for ril_prop
-    chown radio radio /proc/LinuStoreIII/ril_prop 
-    chmod 0664 /proc/LinuStoreIII/ril_prop
+#    chown radio radio /proc/LinuStoreIII/ril_prop 
+#    chmod 0664 /proc/LinuStoreIII/ril_prop
     # for fsbuild_check
-    chown radio radio /proc/LinuStoreIII/fsbuild_check 
-    chmod 0664 /proc/LinuStoreIII/fsbuild_check
+#    chown radio radio /proc/LinuStoreIII/fsbuild_check 
+#    chmod 0664 /proc/LinuStoreIII/fsbuild_check
     # for recovery_opts
-    chown system radio /proc/LinuStoreIII/recovery_opts 
-    chmod 0664 /proc/LinuStoreIII/recovery_opts	
+#    chown system radio /proc/LinuStoreIII/recovery_opts 
+#    chmod 0664 /proc/LinuStoreIII/recovery_opts	
 	
 # Audio (Earjack)
-    chown system radio /sys/class/audio/earjack/select_jack
-    chown system radio /sys/class/audio/earjack/key_state
-    chown system radio /sys/class/audio/earjack/state
-    chown media system /sys/class/audio/earjack/reselect_jack 
+#    chown system radio /sys/class/audio/earjack/select_jack
+#    chown system radio /sys/class/audio/earjack/key_state
+#    chown system radio /sys/class/audio/earjack/state
+#    chown media system /sys/class/audio/earjack/reselect_jack 
 
 # Battery node
-    chown system radio /sys/class/power_supply/battery/batt_charging_source
-    chown system radio /sys/class/power_supply/battery/batt_error_test
-    chown system radio /sys/class/power_supply/battery/batt_lp_charging
-    chown system radio /sys/class/power_supply/battery/batt_read_adj_soc
-    chown system radio /sys/class/power_supply/battery/batt_read_raw_soc
-    chown system radio /sys/class/power_supply/battery/batt_reset_soc
-    chown system radio /sys/class/power_supply/battery/batt_slate_mode
-    chown system radio /sys/class/power_supply/battery/batt_temp_adc
-    chown system radio /sys/class/power_supply/battery/batt_temp_adc_aver
-    chown system radio /sys/class/power_supply/battery/batt_temp_adc_cal
-    chown system radio /sys/class/power_supply/battery/batt_temp_aver
-    chown system radio /sys/class/power_supply/battery/batt_type
-    chown system radio /sys/class/power_supply/battery/batt_vf_adc
-    chown system radio /sys/class/power_supply/battery/batt_vfocv
-    chown system radio /sys/class/power_supply/battery/batt_vol_adc
-    chown system radio /sys/class/power_supply/battery/batt_vol_adc_aver
-    chown system radio /sys/class/power_supply/battery/batt_vol_adc_cal
-    chown system radio /sys/class/power_supply/battery/batt_vol_aver
-    chown system radio /sys/class/power_supply/battery/factory_mode
-    chown system radio /sys/class/power_supply/battery/siop_activated
-    chown system radio /sys/class/power_supply/battery/siop_level
-    chown system radio /sys/class/power_supply/battery/update
-    chown system radio /sys/class/power_supply/battery/wc_status
-    chown system radio /sys/class/power_supply/battery/wpc_pin_state
-    chown system radio /sys/class/power_supply/fuelgauge/fg_curr_ua
+#    chown system radio /sys/class/power_supply/battery/batt_charging_source
+#    chown system radio /sys/class/power_supply/battery/batt_error_test
+#    chown system radio /sys/class/power_supply/battery/batt_lp_charging
+#    chown system radio /sys/class/power_supply/battery/batt_read_adj_soc
+#    chown system radio /sys/class/power_supply/battery/batt_read_raw_soc
+#    chown system radio /sys/class/power_supply/battery/batt_reset_soc
+#    chown system radio /sys/class/power_supply/battery/batt_slate_mode
+#    chown system radio /sys/class/power_supply/battery/batt_temp_adc
+#    chown system radio /sys/class/power_supply/battery/batt_temp_adc_aver
+#    chown system radio /sys/class/power_supply/battery/batt_temp_adc_cal
+#    chown system radio /sys/class/power_supply/battery/batt_temp_aver
+#    chown system radio /sys/class/power_supply/battery/batt_type
+#    chown system radio /sys/class/power_supply/battery/batt_vf_adc
+#    chown system radio /sys/class/power_supply/battery/batt_vfocv
+#    chown system radio /sys/class/power_supply/battery/batt_vol_adc
+#    chown system radio /sys/class/power_supply/battery/batt_vol_adc_aver
+#    chown system radio /sys/class/power_supply/battery/batt_vol_adc_cal
+#    chown system radio /sys/class/power_supply/battery/batt_vol_aver
+#    chown system radio /sys/class/power_supply/battery/factory_mode
+#    chown system radio /sys/class/power_supply/battery/siop_activated
+#    chown system radio /sys/class/power_supply/battery/siop_level
+#    chown system radio /sys/class/power_supply/battery/update
+#    chown system radio /sys/class/power_supply/battery/wc_status
+#    chown system radio /sys/class/power_supply/battery/wpc_pin_state
+#    chown system radio /sys/class/power_supply/fuelgauge/fg_curr_ua
 
 # CTIA event
    chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/call
@@ -452,10 +452,10 @@ on boot
     chmod 0660 /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
 
 # Switch Device
-    chown system system /sys/class/sec/switch/uart_sel
-    chown system system /sys/class/sec/switch/usb_sel
-    chown system system /sys/class/sec/switch/otg_test
-    chown system radio /sys/class/sec/switch/adc
+#    chown system system /sys/class/sec/switch/uart_sel
+#    chown system system /sys/class/sec/switch/usb_sel
+#    chown system system /sys/class/sec/switch/otg_test
+#    chown system radio /sys/class/sec/switch/adc
 
 # Permissions for SVC LED
 	chown system system /sys/class/sec/led/led_pattern
@@ -464,14 +464,14 @@ on boot
 	chown system system /sys/class/sec/led/led_lowpower
 
 # Init Compcache taejin5.park
-    chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
-    chown system system /sys/class/lmk/lowmemorykiller/lmk_state
-    chmod 0664 /sys/block/zram0/disksize
-    chown system system /sys/block/zram0/disksize
-	write /sys/block/zram0/disksize 104857600
-    chmod 0664 /sys/block/zram0/initstate
-    chown system system /sys/block/zram0/initstate
-    write /sys/block/zram0/initstate 1
+#    chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
+#    chown system system /sys/class/lmk/lowmemorykiller/lmk_state
+#    chmod 0664 /sys/block/zram0/disksize
+ #   chown system system /sys/block/zram0/disksize
+#	write /sys/block/zram0/disksize 104857600
+#    chmod 0664 /sys/block/zram0/initstate
+ #   chown system system /sys/block/zram0/initstate
+ #   write /sys/block/zram0/initstate 1
 
 # serial_no permission change
     touch /efs/FactoryApp/serial_no
@@ -489,7 +489,7 @@ on fs
 	chown radio system /dev/block/mmcblk0p1    
 	chmod 0770 /dev/block/mmcblk0p1
 
-	chmod 6755 /system/xbin/su
+#	chmod 6755 /system/xbin/su
 
 #for ASE application
     mkdir /data/brcm
@@ -671,17 +671,17 @@ service iprenew_bt-pan /system/bin/dhcpcd -n
          chmod 220 /sys/class/camera/rear/rear_camtype
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
-on property:persist.sys.dataprefer.simid=0
-     write /data/atx/setsim.txt at*msetsim=1
-     chmod 0666 /data/atx/setsim.txt
-     start set_simid
+#on property:persist.sys.dataprefer.simid=0
+#     write /data/atx/setsim.txt at*msetsim=1
+#     chmod 0666 /data/atx/setsim.txt
+#     start set_simid
 
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
-on property:persist.sys.dataprefer.simid=1
-     write /data/atx/setsim.txt at*msetsim=2
-     chmod 0666 /data/atx/setsim.txt
-     start set_simid
+#on property:persist.sys.dataprefer.simid=1
+#     write /data/atx/setsim.txt at*msetsim=2
+#     chmod 0666 /data/atx/setsim.txt
+#     start set_simid
 
 #btld is only used for FM
 # Make sure we startup btld before hcid
@@ -723,17 +723,17 @@ service gpsd /system/bin/glgps -c /system/etc/gps/glconfig.xml
     group system root inet radio wifi sdcard_rw
 
 # Run ATX over UART
-service console-atx /system/bin/atx -l -d
-    class main
-    console
+#service console-atx /system/bin/atx -l -d
+#    class main
+#    console
 	#user system
     #group vpn net_admin net_raw radio system sdcard_rw log mount
-	user root
-	group vpn net_admin net_raw radio system sdcard_rw log mount root
+#	user root
+#	group vpn net_admin net_raw radio system sdcard_rw log mount root
 
 # Kexec enable
-service kexec /system/kexec/kexec.sh
-    oneshot
+#service kexec /system/kexec/kexec.sh
+#    oneshot
 
 # Run bkmgrd automatically on startup
 service bkmgrd /system/bin/bkmgrd
@@ -754,13 +754,13 @@ service usb_portd /system/bin/usb_portd
 
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
-service set_simid /system/bin/atx --fordev=ACM --runcmd=/data/atx/setsim.txt
-    disabled
-    oneshot
+#service set_simid /system/bin/atx --fordev=ACM --runcmd=/data/atx/setsim.txt
+#    disabled
+#    oneshot
     #user system
     #group input vpn net_admin net_raw radio system sdcard_rw log mount
-	user root
-	group input vpn net_admin net_raw radio system sdcard_rw log mount root
+#	user root
+#	group input vpn net_admin net_raw radio system sdcard_rw log mount root
 
 #Indicate boot complete to PM to complete PM initialization
 on property:dev.bootcomplete=1
@@ -788,36 +788,12 @@ on property:dev.bootcomplete=1
 service startadb /system/etc/startadb.sh
 	oneshot
 
-#service battery_charger /charger
-#    class charger
-
-# Bluetooth LE 2 wired Test
-#service LE_dut_cmd_on /system/bin/bttestintf enable
-#   group bluetooth net_bt_admin
-#    disabled
-#    oneshot
-
-#service LE_dut_cmd_off /system/bin/bttestintf disable
-#    group bluetooth net_bt_admin
-#    disabled
-#    oneshot
-
-#service bttestdaemon /system/bin/bttestd
-#    class main
-#    user bluetooth
-#    group bluetooth net_bt_admin
-#    disabled
-#    oneshot
-
-# SA, System SW, SAMSUNG
-#service bugreport /system/bin/bugmailer.sh -v
-#    class main
-#    disabled
-#    oneshot
-#    keycodes 114 115 116
+service battery_charger /charger
+    class charger
 
 on property:ro.dumpstate.dmesg=1
     write /proc/sys/kernel/dmesg_restrict 0	
+	
 # fusewrapped external sdcard daemon running as media_rw (1023)
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
