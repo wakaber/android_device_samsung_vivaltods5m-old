@@ -7,9 +7,8 @@ on early-init
 
 on init
 	
-    # See storage config details at http://source.android.com/tech/storage/
-	# SD Card 0
-    mkdir /mnt/shell/emulated 0700 shell shell
+# See storage config details at http://source.android.com/tech/storage/
+	mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage/emulated 0555 root root
 	export EXTERNAL_STORAGE /storage/emulated/legacy
 	export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
@@ -17,10 +16,9 @@ on init
 	# Support legacy paths
     symlink /storage/emulated/legacy /sdcard
     symlink /storage/emulated/legacy /mnt/sdcard
-    symlink /storage/emulated/legacy /storage/sdcard0
-    symlink /mnt/shell/emulated/0 /storage/emulated/legacy
-	
-	# SD Card 1
+	symlink /storage/emulated/legacy /storage/sdcard0
+	symlink /mnt/shell/emulated/0 /storage/emulated/legacy
+
 	mkdir /storage/sdcard1 0775 system system
     #mkdir /storage/usbdisk 0775 system system
 	export SECONDARY_STORAGE /storage/sdcard1
@@ -38,12 +36,10 @@ on init
 
 # To store widevine keybox
     symlink /data/app /factory
+	symlink /efs /factory
+	symlink /dev/block/mmcblk0p11 /dev/block/param    
 
-    symlink /efs /factory
-
-    symlink /dev/block/mmcblk0p11 /dev/block/param    
-
-    mkdir /preload 0771 system system 
+#    mkdir /preload 0771 system system 
 	
 on post-fs-data
 # we will remap this as /storage/sdcard with the sdcard fuse tool
@@ -160,10 +156,6 @@ on post-fs-data
     chmod 0775 /system/etc/usbdev.sh
     chmod 0775 /system/etc/startadb.sh
 
-# MTP permission
-	#chmod 0660 /dev/usb_mtp_gadget
-	#chown system system /dev/usb_mtp_gadget
-
 on boot
 # SISO-ANDR_PERF :: START Changing scheduler to noop during boot
     write /sys/block/mmcblk0/queue/scheduler noop
@@ -273,7 +265,7 @@ on boot
     setprop status.battery.level_raw  100
     setprop status.battery.level_scale 10
 
-    # Set permission for Widevine DRM temporarily
+# Set permission for Widevine DRM temporarily
     chmod 0777 /dev/s5p-smem
     rm /data/app/tlcd_sock
 
@@ -316,21 +308,6 @@ on boot
     copy /system/etc/local.prop /data/local.prop
     chown system bluetooth /data/local.prop
     chmod 0660 /data/local.prop
-#    setprop service.brcm.bt.patchfile /system/bin/BCM2076B1_xxx.hcd
-# permissions for FMRadio of Broadcom
-#    chmod 0777 /system/bin/btld
-
-# permission for FMRadion Intenna
-#    write /sys/class/gpio/export 92
-#    chown system system /sys/class/gpio/gpio92/value
-#    chown system system /sys/class/gpio/gpio92/direction
-#    write /sys/class/gpio/gpio92/value 0
-#    write /sys/class/gpio/gpio92/direction out
-#    write /sys/class/gpio/export 56
-#    chown system system /sys/class/gpio/gpio56/value
-#    chown system system /sys/class/gpio/gpio56/direction
-#    write /sys/class/gpio/gpio56/value 0
-#    write /sys/class/gpio/gpio56/direction out
 
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1
@@ -385,19 +362,19 @@ on boot
 #    chown system radio /sys/class/power_supply/fuelgauge/fg_curr_ua
 
 # CTIA event
-   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/call
-   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/video
-   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/music
-   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/browser
-   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/hotspot
-   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/camera
-   chown system radio /sys/class/power_supply/battery/talk_wcdma
-   chown system radio /sys/class/power_supply/battery/talk_gsm
-   chown system radio /sys/class/power_supply/battery/call
-   chown system radio /sys/class/power_supply/battery/data_call
-   chown gps radio /sys/class/power_supply/battery/gps
-   chown system radio /sys/class/power_supply/battery/wifi
-   chown system radio /sys/class/power_supply/battery/lte
+#   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/call
+#   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/video
+#   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/music
+#   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/browser
+#   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/hotspot
+#   chown sdcard_rw sdcard_rw /sys/class/power_supply/battery/camera
+#   chown system radio /sys/class/power_supply/battery/talk_wcdma
+#   chown system radio /sys/class/power_supply/battery/talk_gsm
+#   chown system radio /sys/class/power_supply/battery/call
+#   chown system radio /sys/class/power_supply/battery/data_call
+#   chown gps radio /sys/class/power_supply/battery/gps
+#   chown system radio /sys/class/power_supply/battery/wifi
+#   chown system radio /sys/class/power_supply/battery/lte
 
 # Thermistor node
     chown radio system /sys/devices/platform/sec-thermistor/temp_adc
@@ -464,14 +441,14 @@ on boot
 	chown system system /sys/class/sec/led/led_lowpower
 
 # Init Compcache taejin5.park
-#    chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
-#    chown system system /sys/class/lmk/lowmemorykiller/lmk_state
-#    chmod 0664 /sys/block/zram0/disksize
- #   chown system system /sys/block/zram0/disksize
+#   chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
+#   chown system system /sys/class/lmk/lowmemorykiller/lmk_state
+#   chmod 0664 /sys/block/zram0/disksize
+#   chown system system /sys/block/zram0/disksize
 #	write /sys/block/zram0/disksize 104857600
-#    chmod 0664 /sys/block/zram0/initstate
- #   chown system system /sys/block/zram0/initstate
- #   write /sys/block/zram0/initstate 1
+#   chmod 0664 /sys/block/zram0/initstate
+#   chown system system /sys/block/zram0/initstate
+#   write /sys/block/zram0/initstate 1
 
 # serial_no permission change
     touch /efs/FactoryApp/serial_no
@@ -559,12 +536,12 @@ on post-fs
     chown radio system /efs
     chmod 0771 /efs
 
-on property:persist.sys.storage_preload=1
-    mount ext4 /dev/block/mmcblk0p18 /preload nosuid nodev noatime wait ro
-    setprop storage.preload.complete 1
-
-on property:persist.sys.storage_preload=0
-    exec /system/bin/umount /preload   
+#on property:persist.sys.storage_preload=1
+#    mount ext4 /dev/block/mmcblk0p18 /preload nosuid nodev noatime wait ro
+#    setprop storage.preload.complete 1
+	
+#on property:persist.sys.storage_preload=0
+#    exec /system/bin/umount /preload   
 
 on property:ro.debuggable=1
     start console
@@ -598,12 +575,6 @@ service ril-daemon /system/bin/rild
     socket rild-debug stream 660 radio system
     user root
 	group radio cache inet misc audio system sdcard_rw log sdcard_r root
-
-# create virtual SD card at /mnt/sdcard, based on the /data/media directory
-# daemon will drop to user/group system/media_rw after initializing
-# underlying files in /data/media will be created with user and group media_rw (1023)
-service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
-    class late_start
 
 service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -732,8 +703,8 @@ service gpsd /system/bin/glgps -c /system/etc/gps/glconfig.xml
 #	group vpn net_admin net_raw radio system sdcard_rw log mount root
 
 # Kexec enable
-#service kexec /system/kexec/kexec.sh
-#    oneshot
+service kexec /system/kexec/kexec.sh
+    oneshot
 
 # Run bkmgrd automatically on startup
 service bkmgrd /system/bin/bkmgrd
@@ -794,10 +765,16 @@ service battery_charger /charger
 on property:ro.dumpstate.dmesg=1
     write /proc/sys/kernel/dmesg_restrict 0	
 	
+# create virtual SD card at /mnt/sdcard, based on the /data/media directory
+# daemon will drop to user/group system/media_rw after initializing
+# underlying files in /data/media will be created with user and group media_rw (1023)
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
+    class late_start	
+
 # fusewrapped external sdcard daemon running as media_rw (1023)
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
-    class late_start
-    disabled
+	class late_start
+	disabled
 
 #service fuse_usbdisk0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/usbdisk0 /storage/usbdisk0
 #    class late_start
