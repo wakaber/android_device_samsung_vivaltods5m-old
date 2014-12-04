@@ -2,7 +2,7 @@ import init.bcm2166x.usb.rc
 import init.log.rc
 
 on early-init
-	#loglevel 9
+	loglevel 9
     mkdir /efs 0771 radio system
 
 on init
@@ -234,7 +234,6 @@ on boot
 # Video Telephony
     chmod 0666 /dev/bcm_vsp
 
-
 # allow user space (atx) access to kernel pm debug
     chown system system /sys/module/pm_dbg/parameters/debug
     chmod 0660 /sys/module/pm_dbg/parameters/debug
@@ -245,7 +244,6 @@ on boot
     chown root system /sys/ponkey/ponkey_mode
     chmod 0664 /sys/ponkey/ponkey_mode
 # END BCM QUICK BOOT FEATURE
-
 
 #security driver
     chmod 0660 /dev/bcm_security
@@ -313,10 +311,10 @@ on boot
     setprop ro.multisim.simslotcount 1
 		
 # Audio (Earjack)
-#    chown system radio /sys/class/audio/earjack/select_jack
-#    chown system radio /sys/class/audio/earjack/key_state
-#    chown system radio /sys/class/audio/earjack/state
-#    chown media system /sys/class/audio/earjack/reselect_jack 
+    chown system radio /sys/class/audio/earjack/select_jack
+    chown system radio /sys/class/audio/earjack/key_state
+    chown system radio /sys/class/audio/earjack/state
+    chown media system /sys/class/audio/earjack/reselect_jack 
 
 # Battery node
     chown system radio /sys/class/power_supply/battery/batt_charging_source
@@ -413,10 +411,10 @@ on boot
     chmod 0660 /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
 
 # Switch Device
-#    chown system system /sys/class/sec/switch/uart_sel
-#    chown system system /sys/class/sec/switch/usb_sel
-#    chown system system /sys/class/sec/switch/otg_test
-#    chown system radio /sys/class/sec/switch/adc
+    chown system system /sys/class/sec/switch/uart_sel
+    chown system system /sys/class/sec/switch/usb_sel
+    chown system system /sys/class/sec/switch/otg_test
+    chown system radio /sys/class/sec/switch/adc
 
 # Permissions for SVC LED
 	chown system system /sys/class/sec/led/led_pattern
@@ -425,14 +423,14 @@ on boot
 	chown system system /sys/class/sec/led/led_lowpower
 
 # Init Compcache taejin5.park
-#   chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
-#   chown system system /sys/class/lmk/lowmemorykiller/lmk_state
-#   chmod 0664 /sys/block/zram0/disksize
-#   chown system system /sys/block/zram0/disksize
-#	write /sys/block/zram0/disksize 104857600
-#   chmod 0664 /sys/block/zram0/initstate
-#   chown system system /sys/block/zram0/initstate
-#   write /sys/block/zram0/initstate 1
+   chmod 0664 /sys/class/lmk/lowmemorykiller/lmk_state
+   chown system system /sys/class/lmk/lowmemorykiller/lmk_state
+   chmod 0664 /sys/block/zram0/disksize
+   chown system system /sys/block/zram0/disksize
+   write /sys/block/zram0/disksize 104857600
+   chmod 0664 /sys/block/zram0/initstate
+   chown system system /sys/block/zram0/initstate
+   write /sys/block/zram0/initstate 1
 
 # serial_no permission change
     touch /efs/FactoryApp/serial_no
@@ -450,7 +448,7 @@ on fs
 	chown radio system /dev/block/mmcblk0p1    
 	chmod 0770 /dev/block/mmcblk0p1
 
-#	chmod 6755 /system/xbin/su
+	chmod 6755 /system/xbin/su
 
 #for ASE application
     mkdir /data/brcm
@@ -540,10 +538,10 @@ service setup_fs /system/bin/setup_fs \
     oneshot
 
 #at_distributor for making file for factory.
-service at_distributor /system/bin/at_distributor
-	class main
-	user root
-	group root
+#service at_distributor /system/bin/at_distributor
+#	class main
+#	user root
+#	group root
 
 #bosch sensor deamon
 service sensord /system/bin/sensord
@@ -743,8 +741,8 @@ on property:dev.bootcomplete=1
 service startadb /system/etc/startadb.sh
 	oneshot
 
-service battery_charger /charger
-    class charger
+#service battery_charger /charger
+#    class charger
 
 on property:ro.dumpstate.dmesg=1
     write /proc/sys/kernel/dmesg_restrict 0	
