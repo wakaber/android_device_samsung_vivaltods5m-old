@@ -463,12 +463,16 @@ service ueventd /sbin/ueventd
 service healthd /sbin/healthd
     class core
     critical
-    seclabel u:r:healthd:s0
+	user root
+	group root
+    #seclabel u:r:healthd:s0
 
 service healthd-charger /sbin/healthd -c
     class charger
     critical
-    seclabel u:r:healthd:s0
+	user root
+	group root
+    #seclabel u:r:healthd:s0
 
 service console /system/bin/sh
     class core

@@ -48,34 +48,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
 	setup_fs 
 	
-# ?
+#
 PRODUCT_PACKAGES += \
 	libexifa \
 	libjpega
-	
-# MFC API	
-PRODUCT_PACKAGES += \
-	libsecmfcapi
-	
-# OMX
-PRODUCT_PACKAGES += \
-	libstagefrighthw \
-	libseccscapi \
-	libsecbasecomponent \
-	libsecosal \
-	libSEC_OMX_Resourcemanager \
-	libSEC_OMX_Core \
-	libSEC_OMX_Vdec \
-	libOMX.SEC.AVC.Decoder \
-	libOMX.SEC.M4V.Decoder \
-	libOMX.SEC.WMV.Decoder \
-	libOMX.SEC.VP8.Decoder \
-	libSEC_OMX_Venc \
-	libOMX.SEC.AVC.Encoder \
-	libOMX.SEC.M4V.Encoder \
-	libSEC_OMX_Adec \
-	libOMX.SEC.MP3.Decoder	
-	
+		
 # Usb accessory
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
@@ -163,7 +140,7 @@ include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 ifeq ($(TARGET_BUILD_VARIANT),user)      
 else      

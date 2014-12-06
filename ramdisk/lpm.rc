@@ -26,6 +26,7 @@ on early-fs
     mount ext4 /dev/block/mmcblk0p17 /system ro wait noatime
     exec sfsck /dev/block/mmcblk0p19 ext4
 	mount ext4 /dev/block/mmcblk0p19 /data wait nosuid nodev noatime discard,noauto_da_alloc,journal_async_commit
+	mount -o rw -t vfat /dev/block/mmcblk1p1 /sdcard
 
 	mkdir /data/log 0777
 
@@ -49,12 +50,17 @@ on boot
 	class_start default
 
 	#service debuggerd /system/bin/debuggerd
+	
+	service lgct /system/bin/logcat -d -f /sdcard/logcat_cm_dbg_lpm.log
+		user root
+		group root
 
 	service ueventd /sbin/ueventd
     	critical
 		
 	service battery_charger /charger
-		#class charger	
+		user root
+		group root	
 
 #service console /bin/sh
 	#service console /system/bin/sh
