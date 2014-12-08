@@ -49,6 +49,7 @@ on post-fs-data
 # SA, System SW, SAMSUNG create log directory
     mkdir /data/log 0775 system log
     chown system log /data/log
+	
     setprop vold.post_fs_data_done 1
 
     chmod 0775 /data/log
@@ -309,6 +310,21 @@ on boot
 
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1
+	
+	chown radio system /sys/power/cpufreq_table
+    chown radio system /sys/power/cpufreq_max_limit
+    chown radio system /sys/power/cpufreq_min_limit
+    chown radio system /sys/devices/system/cpu/cpufreq/pegasusq/max_cpu_lock
+    chown radio system /sys/devices/system/cpu/cpufreq/pegasusq/hotplug_lock
+    chown radio system /sys/devices/system/cpu/busfreq/curr_freq
+    chmod 0660 /sys/power/cpufreq_table
+    chmod 0660 /sys/power/cpufreq_max_limit
+    chmod 0660 /sys/power/cpufreq_min_limit
+    chmod 0660 /sys/class/power_supply/battery/siop_activated
+    chmod 0660 /sys/class/power_supply/battery/siop_level
+    chmod 0660 /sys/devices/system/cpu/cpufreq/pegasusq/max_cpu_lock
+    chmod 0660 /sys/devices/system/cpu/cpufreq/pegasusq/hotplug_lock
+    chmod 0660 /sys/devices/system/cpu/busfreq/curr_freq	
 		
 # Audio (Earjack)
     chown system radio /sys/class/audio/earjack/select_jack
@@ -365,18 +381,6 @@ on boot
 # Permissions for touch
     chown system radio /sys/class/sec/tsp/cmd
 
-## Permissions for WACOM
-#    chown system radio /sys/class/sec/sec_epen/epen_firm_update
-#    chown system radio /sys/class/sec/sec_epen/epen_rotation
-#    chown system radio /sys/class/sec/sec_epen/epen_hand
-#    chown system radio /sys/class/sec/sec_epen/epen_reset
-#    chown system radio /sys/class/sec/sec_epen/epen_reset_result
-#    chown system radio /sys/class/sec/sec_epen/epen_checksum
-#    chown system radio /sys/class/sec/sec_epen/epen_checksum_result
-#    chown system radio /sys/class/sec/sec_epen/epen_saving_mode
-## Firmware update
-#    write /sys/class/sec/sec_epen/epen_firm_update R
-
 # Permissions for Touchkey
   	chown system radio /sys/class/sec/sec_touchkey/enable_disable 
 	chown system radio /sys/class/sec/sec_touchkey/touchkey_brightness
@@ -409,6 +413,8 @@ on boot
     chown system radio /sys/class/flash/flash/flash_power
     chown radio system /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
     chmod 0660 /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
+	chmod 220 /sys/class/camera/rear/rear_camfw
+    chmod 220 /sys/class/camera/rear/rear_camtype
 
 # Switch Device
     chown system system /sys/class/sec/switch/uart_sel
@@ -619,9 +625,6 @@ service iprenew_bt-pan /system/bin/dhcpcd -n
     disabled
     oneshot
 	
-# Permissions for Camera
-         chmod 220 /sys/class/camera/rear/rear_camfw
-         chmod 220 /sys/class/camera/rear/rear_camtype
 # When the default SIM for data connections is updated,
 # also update the DUN AT channel with the default SIM.
 #on property:persist.sys.dataprefer.simid=0
