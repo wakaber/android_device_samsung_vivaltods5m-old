@@ -41,8 +41,8 @@ PRODUCT_COPY_FILES += \
 
 # Insecure ADBD
 #ADDITIONAL_DEFAULT_PROPERTIES += \
-#	ro.adb.secure=3 \
-#	persist.sys.root_access=3
+	ro.adb.secure=3 \
+	persist.sys.root_access=3
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -62,7 +62,7 @@ PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio.usb.default \
 	audio.r_submix.default \
-	audio_policy_logan.hawaii
+	audio_policy.hawaii
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -140,7 +140,6 @@ include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 PRODUCT_TAGS += dalvik.gc.type-precise
 
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
-#$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 ifeq ($(TARGET_BUILD_VARIANT),user)      
 else      

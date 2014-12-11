@@ -465,14 +465,14 @@ service healthd /sbin/healthd
     critical
 	user root
 	group root
-    #seclabel u:r:healthd:s0
+    seclabel u:r:healthd:s0
 
 service healthd-charger /sbin/healthd -c
     class charger
     critical
 	user root
 	group root
-    #seclabel u:r:healthd:s0
+    seclabel u:r:healthd:s0
 
 service console /system/bin/sh
     class core
