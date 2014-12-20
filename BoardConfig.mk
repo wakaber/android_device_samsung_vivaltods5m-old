@@ -93,7 +93,7 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd-logan.hawaii
 BOARD_RIL_CLASS := ../../../device/samsung/logan/ril/
 
 # Recovery
-TARGET_RECOVERY_INITRC := device/samsung/logan/ramdisk/recovery/init.recovery.rc
+#TARGET_RECOVERY_INITRC := device/samsung/logan/ramdisk/recovery/init.recovery.rc
 TARGET_RECOVERY_FSTAB := device/samsung/logan/ramdisk/fstab.hawaii_ss_logan
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_HAS_NO_SELECT_BUTTON := true

@@ -19,13 +19,15 @@ PRODUCT_COPY_FILES += \
 	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
 	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
-	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
 	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
 	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
 
 PRODUCT_COPY_FILES += \
 	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml \
 	device/samsung/logan/configs/audio_policy.conf:system/etc/audio_policy.conf \
+	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
 	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml 
 
 # Prebuilt kl keymaps
@@ -71,7 +73,6 @@ PRODUCT_PACKAGES += \
 
 # Charger
 PRODUCT_PACKAGES += \
-	charger \
 	charger_res_images
 
 # These are the hardware-specific features
