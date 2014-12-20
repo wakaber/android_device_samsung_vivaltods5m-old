@@ -41,41 +41,18 @@ PRODUCT_COPY_FILES += \
 
 # Insecure ADBD
 #ADDITIONAL_DEFAULT_PROPERTIES += \
-#	ro.adb.secure=3 \
-#	persist.sys.root_access=3
+	ro.adb.secure=3 \
+	persist.sys.root_access=3
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
 	setup_fs 
 	
-# ?
+#
 PRODUCT_PACKAGES += \
 	libexifa \
 	libjpega
-	
-# MFC API	
-PRODUCT_PACKAGES += \
-	libsecmfcapi
-	
-# OMX
-PRODUCT_PACKAGES += \
-	libstagefrighthw \
-	libseccscapi \
-	libsecbasecomponent \
-	libsecosal \
-	libSEC_OMX_Resourcemanager \
-	libSEC_OMX_Core \
-	libSEC_OMX_Vdec \
-	libOMX.SEC.AVC.Decoder \
-	libOMX.SEC.M4V.Decoder \
-	libOMX.SEC.WMV.Decoder \
-	libOMX.SEC.VP8.Decoder \
-	libSEC_OMX_Venc \
-	libOMX.SEC.AVC.Encoder \
-	libOMX.SEC.M4V.Encoder \
-	libSEC_OMX_Adec \
-	libOMX.SEC.MP3.Decoder	
-	
+		
 # Usb accessory
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
@@ -85,7 +62,7 @@ PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio.usb.default \
 	audio.r_submix.default \
-	audio_policy_logan.hawaii
+	audio_policy.hawaii
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -157,7 +134,7 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
 # Dalvik heap config
-include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
+include frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk
 
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
