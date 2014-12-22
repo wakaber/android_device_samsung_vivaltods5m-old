@@ -523,6 +523,7 @@ on fs
 	mkdir /efs/imei 0775 radio system 
 
 on post-fs
+	restorecon_recursive /efs
     chown radio system /efs
     chmod 0771 /efs
 
@@ -574,7 +575,7 @@ on property:ro.debuggable=1
 		critical
 		seclabel u:r:healthd:s0	
 
-	service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
+	service wpa_supplicant /system/bin/wpa_supplicant \
 		-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
 		-I/system/etc/wifi/wpa_supplicant_overlay.conf \
 		-e/data/misc/wifi/entropy.bin \
@@ -588,7 +589,7 @@ on property:ro.debuggable=1
 		disabled
 		oneshot
 	
-	service p2p_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
+	service p2p_supplicant /system/bin/wpa_supplicant \
 		-iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
 		-I/system/etc/wifi/wpa_supplicant_overlay.conf -N \
 		-ip2p0 -Dnl80211 -c/data/misc/wifi/p2p_supplicant.conf \

@@ -31,7 +31,12 @@ BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 8388608
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1395654656
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2189426688
+BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072
+
+# Include an expanded selection of fonts
+EXTENDED_FONT_FOOTPRINT := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -57,6 +62,7 @@ WIFI_DRIVER_MODULE_NAME     := "dhd"
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/etc/wifi/bcmdhd_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_BAND                   := 802_11_ABG
+BOARD_NO_WIFI_HAL           := true
 
 # Wi-Fi Tethering
 BOARD_HAVE_SAMSUNG_WIFI := true
@@ -76,7 +82,6 @@ HWUI_COMPILE_FOR_PERF := true
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
-#BOARD_USE_SAMSUNG_SEPARATEDSTREAM := true
 
 # Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
@@ -107,9 +112,31 @@ BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/logan/cmhw/
 # GPS
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/logan/include
 
+# Compat
+TARGET_USES_LOGD := false
+
+# jemalloc causes a lot of random crash on free()
+MALLOC_IMPL := dlmalloc
+
 # SELinux
 BOARD_SEPOLICY_DIRS += \
     device/samsung/logan/sepolicy
 
 BOARD_SEPOLICY_UNION += \
-    file_contexts
+    file_contexts \
+    property_contexts \
+    service_contexts \
+    bkmgrd.te \
+    device.te \
+    geomagneticd.te \
+    gpsd.te \
+    init.te \
+    immvibed.te \
+    kernel.te \
+    macloader.te \
+    rild.te \
+    shell.te \
+    system_app.te \
+    system_server.te \
+    tvserver.te \
+    vclmk.te

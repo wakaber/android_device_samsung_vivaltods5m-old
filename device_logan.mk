@@ -1,8 +1,5 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# The gps config appropriate for this device
-$(call inherit-product, device/common/gps/gps_us_supl.mk)
-
 $(call inherit-product-if-exists, vendor/samsung/logan/logan-common-vendor.mk)
 
 # Use high-density artwork where available
@@ -59,12 +56,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
 	com.android.future.usb.accessory
 
-# Misc other modules
+# Audio modules
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
 	audio.usb.default \
-	audio.r_submix.default \
-	audio_policy.hawaii
+	audio.r_submix.default
+	
+USE_CUSTOM_AUDIO_POLICY := 1	
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -74,6 +72,13 @@ PRODUCT_PACKAGES += \
 # Charger
 PRODUCT_PACKAGES += \
 	charger_res_images
+	
+# Wi-Fi
+PRODUCT_PACKAGES += \
+	dhcpcd.conf \
+	hostapd \
+	wpa_supplicant \
+	wpa_supplicant.conf	
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
