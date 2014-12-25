@@ -3,37 +3,37 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
-$(call inherit-product-if-exists, vendor/samsung/logan/logan-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/samsung/vivaltonfc3g/vivaltonfc3g-common-vendor.mk)
 
 # Use high-density artwork where available
 PRODUCT_LOCALES += hdpi
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
 
-DEVICE_PACKAGE_OVERLAYS += device/samsung/logan/overlay
+DEVICE_PACKAGE_OVERLAYS += device/samsung/vivaltonfc3g/overlay
 
 # Init files
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/ramdisk/fstab.hawaii_ss_logan:root/fstab.hawaii_ss_logan \
-	device/samsung/logan/ramdisk/init.rc:root/init.rc \
-	device/samsung/logan/ramdisk/init.hawaii_ss_logan.rc:root/init.hawaii_ss_logan.rc \
-	device/samsung/logan/ramdisk/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
-	device/samsung/logan/ramdisk/init.log.rc:root/init.log.rc \
-	device/samsung/logan/ramdisk/lpm.rc:root/lpm.rc \
-	device/samsung/logan/ramdisk/ueventd.hawaii_ss_logan.rc:root/ueventd.hawaii_ss_logan.rc \
-	device/samsung/logan/ramdisk/recovery/init.recovery.hawaii_ss_logan.rc:root/init.recovery.hawaii_ss_logan.rc
+	device/samsung/vivaltonfc3g/ramdisk/fstab.hawaii_ss_vivaltonfc3g:root/fstab.hawaii_ss_vivaltonfc3g \
+	device/samsung/vivaltonfc3g/ramdisk/init.rc:root/init.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.hawaii_ss_vivaltonfc3g.rc:root/init.hawaii_ss_vivaltonfc3g.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.hawaii.usb.rc:root/init.hawaii.usb.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.log.rc:root/init.log.rc \
+	device/samsung/vivaltonfc3g/ramdisk/lpm.rc:root/lpm.rc \
+	device/samsung/vivaltonfc3g/ramdisk/ueventd.hawaii_ss_vivaltonfc3g.rc:root/ueventd.hawaii_ss_vivaltonfc3g.rc \
+	device/samsung/vivaltonfc3g/ramdisk/recovery/init.recovery.hawaii_ss_vivaltonfc3g.rc:root/init.recovery.hawaii_ss_vivaltonfc3g.rc
 
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/configs/media_profiles.xml:system/etc/media_profiles.xml \
-	device/samsung/logan/configs/audio_policy.conf:system/etc/audio_policy.conf \
-	device/samsung/logan/configs/media_codecs.xml:system/etc/media_codecs.xml 
+	device/samsung/vivaltonfc3g/configs/media_profiles.xml:system/etc/media_profiles.xml \
+	device/samsung/vivaltonfc3g/configs/audio_policy.conf:system/etc/audio_policy.conf \
+	device/samsung/vivaltonfc3g/configs/media_codecs.xml:system/etc/media_codecs.xml 
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
-	device/samsung/logan/keylayouts/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
-	device/samsung/logan/keylayouts/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
-	device/samsung/logan/keylayouts/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-	device/samsung/logan/keylayouts/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
+	device/samsung/vivaltonfc3g/keylayouts/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
+	device/samsung/vivaltonfc3g/keylayouts/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
+	device/samsung/vivaltonfc3g/keylayouts/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+	device/samsung/vivaltonfc3g/keylayouts/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
 
 # Copy Apps
 #PRODUCT_COPY_FILES += \
@@ -147,6 +147,6 @@ else
 endif
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_NAME := full_logan
-PRODUCT_DEVICE := logan
-PRODUCT_MODEL := GT-S7270
+PRODUCT_NAME := full_vivaltonfc3g
+PRODUCT_DEVICE := vivaltonfc3g
+PRODUCT_MODEL := SM-G313HN
