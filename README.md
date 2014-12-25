@@ -1,4 +1,4 @@
-android_device_logan
+android_device_vivaltonfc3g
 ======================
 
-Device tree for Samsung Galaxy Ace 3 GT-S7270 (1 SIM)
+Device tree for Samsung Galaxy Trend 2 SM-G313HN
