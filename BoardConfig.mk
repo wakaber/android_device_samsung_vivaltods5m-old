@@ -109,7 +109,7 @@ TARGET_SPECIFIC_HEADER_PATH := device/samsung/vivaltonfc3g/include
 
 # SELinux
 BOARD_SEPOLICY_DIRS += \
-    device/samsung/logan/sepolicy
+    device/samsung/vivaltonfc3g/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts
