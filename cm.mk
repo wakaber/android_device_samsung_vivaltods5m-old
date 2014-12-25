@@ -5,7 +5,7 @@ PRODUCT_RELEASE_NAME := SM-G313HN
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 
 # Inherit device configuration
-$(call inherit-product, device/samsung/vivaltonfc3g/device_logan.mk)
+$(call inherit-product, device/samsung/vivaltonfc3g/device_vivaltonfc3g.mk)
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := vivaltonfc3g
