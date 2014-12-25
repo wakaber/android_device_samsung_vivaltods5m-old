@@ -1,4 +1,6 @@
-android_device_vivaltonfc3g
+android_device_samsung_vivaltonfc3g
 ======================
 
-Device tree for Samsung Galaxy Trend 2 SM-G313HN
+Device configuration for Galaxy Trend 2 SM-G313HN
+
+WORK IN PROGRESS.
