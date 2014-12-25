@@ -15,13 +15,16 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/vivaltonfc3g/overlay
 # Init files
 PRODUCT_COPY_FILES += \
 	device/samsung/vivaltonfc3g/ramdisk/fstab.hawaii_ss_vivaltonfc3g:root/fstab.hawaii_ss_vivaltonfc3g \
-	device/samsung/vivaltonfc3g/ramdisk/init.rc:root/init.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.common.rc:root/init.common.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.hawaii_ss.usb.rc:root/init.hawaii_ss.usb.rc \
 	device/samsung/vivaltonfc3g/ramdisk/init.hawaii_ss_vivaltonfc3g.rc:root/init.hawaii_ss_vivaltonfc3g.rc \
-	device/samsung/vivaltonfc3g/ramdisk/init.hawaii.usb.rc:root/init.hawaii.usb.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.hawaii_ss_vivaltonfc3g_base.rc:root/init.hawaii_ss_vivaltonfc3g_base.rc \
 	device/samsung/vivaltonfc3g/ramdisk/init.log.rc:root/init.log.rc \
-	device/samsung/vivaltonfc3g/ramdisk/lpm.rc:root/lpm.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.rc:root/init.rc \
+	device/samsung/vivaltonfc3g/ramdisk/init.wifi.rc:root/init.wifi.rc \
+	device/samsung/vivaltonfc3g/ramdisk/lmp_init.sh:root/lmp_init.sh \
 	device/samsung/vivaltonfc3g/ramdisk/ueventd.hawaii_ss_vivaltonfc3g.rc:root/ueventd.hawaii_ss_vivaltonfc3g.rc \
-	device/samsung/vivaltonfc3g/ramdisk/recovery/init.recovery.hawaii_ss_vivaltonfc3g.rc:root/init.recovery.hawaii_ss_vivaltonfc3g.rc
+	device/samsung/vivaltonfc3g/ramdisk/recovery/init.recovery.rc:root/init.recovery.rc
 
 PRODUCT_COPY_FILES += \
 	device/samsung/vivaltonfc3g/configs/media_profiles.xml:system/etc/media_profiles.xml \
