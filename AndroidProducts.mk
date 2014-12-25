@@ -1,2 +1,2 @@
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/device_logan.mk
+    $(LOCAL_DIR)/device_vivaltonfc3g.mk
