@@ -24,7 +24,6 @@ PRODUCT_COPY_FILES += \
 	device/samsung/vivaltonfc3g/ramdisk/init.wifi.rc:root/init.wifi.rc \
 	device/samsung/vivaltonfc3g/ramdisk/lmp_init.sh:root/lmp_init.sh \
 	device/samsung/vivaltonfc3g/ramdisk/ueventd.hawaii_ss_vivaltonfc3g.rc:root/ueventd.hawaii_ss_vivaltonfc3g.rc \
-	device/samsung/vivaltonfc3g/ramdisk/recovery/init.recovery.rc:root/init.recovery.rc
 
 PRODUCT_COPY_FILES += \
 	device/samsung/vivaltonfc3g/configs/media_profiles.xml:system/etc/media_profiles.xml \
