@@ -27,6 +27,7 @@ TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_vivaltonfc3g_rev00_defconfig
 TARGET_KERNEL_SOURCE := device/samsung/vivaltonfc3g/kernel
 
 # PARTITION SIZE
+BOARD_MKBOOTIMG_ARGS := --second device/samsung/vivaltonfc3g/second.bin
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 8388608
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1161543680
@@ -93,13 +94,16 @@ BOARD_HAL_STATIC_LIBRARIES := libhealthd-vivaltonfc3g.hawaii
 BOARD_RIL_CLASS := ../../../device/samsung/vivaltonfc3g/ril/
 
 # Recovery
-TARGET_RECOVERY_INITRC := device/samsung/vivaltonfc3g/ramdisk/recovery/init.recovery.rc
+TARGET_RECOVERY_INITRC := device/samsung/vivaltonfc3g/ramdisk/init.recovery.rc
 TARGET_RECOVERY_FSTAB := device/samsung/vivaltonfc3g/ramdisk/fstab.hawaii_ss_vivaltonfc3g
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
+BOARD_HAS_NO_MISC_PARTITION := true
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
+BOARD_SUPPRESS_EMMC_WIPE := true
+BOARD_HAS_FLIPPED_SCREEN := true
+TARGET_RECOVERY_PIXEL_FORMAT := RGBA_8888
 
 # CMHW
 BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/vivaltonfc3g/cmhw/
