@@ -13,10 +13,9 @@ USB (Tethering, file sharing etc.)
 Wifi tethering
 
 Partially works:
-Calls (No audio, incoming number not showing up)
+Calls (Incoming number not showing up, calling someone kills audio)
 
 Does not work:
-Offline charging
 Wifi
 
 Not tested:
