@@ -5,7 +5,6 @@ bin/bkmgrd
 bin/edmaudit
 bin/glgps
 bin/gps.cer
-bin/hostapd
 bin/lpm
 bin/macloader
 bin/mfgloader
@@ -13,7 +12,6 @@ bin/usb_portd
 bin/usbdev_mode
 bin/watchdogd
 bin/wlandutservice
-bin/wpa_supplicant
 etc/gps/glconfig.xml
 etc/wifi/bcmdhd_apsta.bin
 etc/wifi/bcmdhd_mfg.bin

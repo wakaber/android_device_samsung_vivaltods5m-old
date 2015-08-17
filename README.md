@@ -17,7 +17,6 @@ Incoming calls (Incoming number not showing up)
 
 Does not work:
 Calling someone hangs the phone app
-Wifi
 
 Not tested:
 FM-radio
