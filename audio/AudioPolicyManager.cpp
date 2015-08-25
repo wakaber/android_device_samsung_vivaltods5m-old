@@ -35,14 +35,14 @@ extern "C" void destroyAudioPolicyManager(AudioPolicyInterface *interface)
 void AudioPolicyManager::setPhoneState(int state)
 {
     if (!isStateInCall(mPhoneState) && isStateInCall(state)) {
-		// On I9082, we need to reset mLastVoiceVolume every call start to force the
-		// volume to be always set since the HAL sometimes forget about it
+        // On S7270, we need to reset mLastVoiceVolume every call start to force the
+        // volume to be always set since the HAL sometimes forget about it
         ALOGV("Resetting mLastVoiceVolume");
         mLastVoiceVolume = -1.0f;
     }
 
-	// Call parent function
-	AudioPolicyManagerBase::setPhoneState(state);
+    // Call parent function
+    AudioPolicyManagerBase::setPhoneState(state);
 }
 
 }; // namespace android

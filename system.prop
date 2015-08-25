@@ -1,5 +1,5 @@
 #
-# vivaltonfc3g (SM-G313HN)
+# vivaltods5m (SM-G313HU)
 #
 rild.libpath=/system/lib/libbrcm_ril.so
 #rild.libargs=-d /dev/ttyS0
@@ -32,7 +32,11 @@ debug.hwui.render_dirty_regions=false
 brcm.graphics.async_errors=false
 brcm.hwc.no-hdmi-trans=1
 
+ro.telephony.ril_class=SamsungBCMRIL
 ro.ril.hsxpa=1
 ro.ril.gprsclass=10
+ro.telephony.call_ring.multiple=0
+ro.telephony.call_ring=0
+#persist.radio.multisim.config=dsds
 persist.sys.dataprefer.simid=0
 ro.com.google.gmsversion=4.1_r4

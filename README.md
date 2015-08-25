@@ -13,10 +13,10 @@ USB (Tethering, file sharing etc.)
 Wifi tethering
 
 Partially works:
-Incoming calls (Incoming number not showing up)
+Calls (Incoming number not showing up, calling someone kills audio)
 
 Does not work:
-Calling someone hangs the phone app
+Wifi
 
 Not tested:
 FM-radio

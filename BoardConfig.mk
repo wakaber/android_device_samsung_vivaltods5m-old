@@ -1,7 +1,7 @@
 USE_CAMERA_STUB := true
 
 # inherit from the proprietary version
--include vendor/samsung/vivaltonfc3g/BoardConfigVendor.mk
+-include vendor/samsung/vivaltods5m/BoardConfigVendor.mk
 
 # Platform
 TARGET_ARCH := arm
@@ -17,15 +17,16 @@ TARGET_BOOTLOADER_BOARD_NAME := hawaii
 BOARD_VENDOR := samsung
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := vivaltonfc3g,G313HN,SM-G313HN,hawaii
+TARGET_OTA_ASSERT_DEVICE := vivaltods5m,G313HU,SM-G313HU,hawaii
 
 # Kernel (console=ttyS0,115200n8 mem=456M gpt v3d_mem=67108864 pmem=24M@0x9E800000)
+TARGET_PREBUILT_KERNEL := device/samsung/vivaltods5m/kernel
 BOARD_KERNEL_CMDLINE :=
 BOARD_KERNEL_BASE := 0x81e00000
 BOARD_KERNEL_PAGESIZE := 4096
-TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_vivaltonfc3g_rev00_cm_defconfig
-TARGET_KERNEL_SOURCE := ../kernel/samsung/vivaltonfc3g
-KERNEL_TOOLCHAIN_PREFIX:=/home/nikiz/cm11/prebuilt/linux-x86/toolchains/arm-eabi-4.7/bin/arm-eabi-
+TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_vivaltods5m_rev00_cm_defconfig
+# TARGET_KERNEL_SOURCE := ../kernel/samsung/vivaltods5m
+# KERNEL_TOOLCHAIN_PREFIX:=/home/nikiz/cm11/prebuilt/linux-x86/toolchains/arm-eabi-4.7/bin/arm-eabi-
 TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
 
 # PARTITION SIZE
@@ -35,10 +36,10 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1161543680
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2424307712
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
-# Vivaltonfc3g needs this in the boot image
-BOARD_MKBOOTIMG_ARGS := --second $(OUT)/obj/KERNEL_OBJ/arch/arm/boot/dts/hawaii_ss_vivaltonfc3g_rev00.dtb
+# vivaltods5m needs this in the boot image
+# BOARD_MKBOOTIMG_ARGS := --second $(OUT)/obj/KERNEL_OBJ/arch/arm/boot/dts/hawaii_ss_vivaltods5m_rev00.dtb
 # Use this if you use a prebuilt kernel
-#BOARD_MKBOOTIMG_ARGS := --second device/samsung/vivaltonfc3g/second.bin
+BOARD_MKBOOTIMG_ARGS := --second device/samsung/vivaltods5m/second.bin
 
 # FLASH BLOCK SIZE (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -46,8 +47,8 @@ BOARD_FLASH_BLOCK_SIZE := 262144
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/vivaltonfc3g/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/samsung/vivaltonfc3g/bluetooth/libbt_vndcfg_g313hn.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/vivaltods5m/bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := device/samsung/vivaltods5m/bluetooth/libbt_vndcfg_g313hu.txt
 
 # Wifi
 BOARD_WLAN_DEVICE                := bcmdhd
@@ -70,7 +71,7 @@ TARGET_SCREEN_HEIGHT := 800
 TARGET_SCREEN_WIDTH := 480
 
 # Hardware rendering
-BOARD_EGL_CFG := device/samsung/vivaltonfc3g/configs/egl.cfg
+BOARD_EGL_CFG := device/samsung/vivaltods5m/configs/egl.cfg
 USE_OPENGL_RENDERER := true
 BOARD_USE_MHEAP_SCREENSHOT := true
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
@@ -78,6 +79,8 @@ TARGET_USES_ION := true
 HWUI_COMPILE_FOR_PERF := true
 #TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS -DCAPRI_HWC
+TARGET_GLOBAL_CFLAGS += -DANDROID_MULTI_SIM
+TARGET_GLOBAL_CPPFLAGS += -DANDROID_MULTI_SIM
 
 # Opengl
 BOARD_USE_BGRA_8888 := true
@@ -94,9 +97,10 @@ BOARD_USES_ALSA_AUDIO := true
 
 # Enable dex-preoptimization to speed up the first boot sequence
 # of an SDK AVD. Note that this operation only works on Linux for now
+WITH_DEXPREOPT := false
 ifeq ($(HOST_OS),linux)
   ifeq ($(WITH_DEXPREOPT),)
-    WITH_DEXPREOPT := true
+    #WITH_DEXPREOPT := true
   endif
 endif
 
@@ -123,14 +127,15 @@ BOARD_USE_LEGACY_SENSORS_FUSION := false
 BOARD_SDEXT_DEVICE := /dev/block/mmcblk1p1
 
 # healthd
-BOARD_HAL_STATIC_LIBRARIES := libhealthd-vivaltonfc3g.hawaii
+BOARD_HAL_STATIC_LIBRARIES := libhealthd-vivaltods5m.hawaii
 
 # RIL
-BOARD_RIL_CLASS := ../../../device/samsung/vivaltonfc3g/ril/
+BOARD_RIL_CLASS := ../../../device/samsung/vivaltods5m/ril/
+SIM_COUNT := 2
 
 # Recovery
-#TARGET_RECOVERY_INITRC := 
-TARGET_RECOVERY_FSTAB := device/samsung/vivaltonfc3g/ramdisk/recovery.fstab
+TARGET_RECOVERY_INITRC := device/samsung/vivaltods5m/ramdisk/init.recovery.rc
+TARGET_RECOVERY_FSTAB := device/samsung/vivaltods5m/ramdisk/fstab.hawaii_ss_vivaltods5m
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -142,18 +147,31 @@ BOARD_USES_MMCUTILS := false
 BOARD_RECOVERY_ALWAYS_WIPES := false
 BOARD_SUPPRESS_EMMC_WIPE := true
 
+# TWRP Settings
+RECOVERY_GRAPHICS_USE_LINELENGTH 		:= true
+DEVICE_RESOLUTION	:= 480x800
+BOARD_USE_CUSTOM_RECOVERY_FONT	:= \"roboto_10x18.h\"
+TW_INTERNAL_STORAGE_PATH 			:= "/data/media/0"
+TW_INTERNAL_STORAGE_MOUNT_POINT 		:= "data"
+TW_EXTERNAL_STORAGE_PATH 			:= "/external_sd"
+TW_EXTERNAL_STORAGE_MOUNT_POINT 		:= "external_sd"
+TW_DEFAULT_EXTERNAL_STORAGE 			:= true
+TW_FLASH_FROM_STORAGE 				:= true
+TW_NO_REBOOT_BOOTLOADER 			:= true
+TW_HAS_DOWNLOAD_MODE				:= true
+
 BOARD_HAVE_FM_RADIO := true
 BOARD_FM_DEVICE := bcm4329
 
 # CMHW
-BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/vivaltonfc3g/cmhw/
+BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/vivaltods5m/cmhw/
 
 # GPS
-TARGET_SPECIFIC_HEADER_PATH := device/samsung/vivaltonfc3g/include
+TARGET_SPECIFIC_HEADER_PATH := device/samsung/vivaltods5m/include
 
 # SELinux
 BOARD_SEPOLICY_DIRS += \
-    device/samsung/vivaltonfc3g/sepolicy
+    device/samsung/vivaltods5m/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts
