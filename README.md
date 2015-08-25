@@ -1,23 +1,18 @@
-android_device_vivaltonfc3g
+android_device_vivaltods5m
 ======================
 
-Device tree for Samsung Galaxy Trend 2 SM-G313HN
+Device tree for Samsung Galaxy Ace 4 SM-G313HU
 
 Works:
 Audio
 Bluetooth
+Calls
 Camera
 GPS
 Networking, Text messages
 USB (Tethering, file sharing etc.)
 Wifi tethering
-
-Partially works:
-Calls (Incoming number not showing up, calling someone kills audio)
-
-Does not work:
 Wifi
 
 Not tested:
 FM-radio
-NFC
