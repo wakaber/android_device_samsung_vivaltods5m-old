@@ -25,8 +25,6 @@ import android.os.Parcel;
 import android.os.SystemProperties;
 import android.telephony.Rlog;
 import com.android.internal.telephony.RILConstants;
-import com.android.internal.telephony.uicc.IccCardApplicationStatus;
-import com.android.internal.telephony.uicc.IccCardStatus;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SignalStrength;
 
@@ -39,6 +37,14 @@ import java.util.Collections;
  * {@hide}
  */
 public class SamsungBCMRIL extends RIL implements CommandsInterface {
+
+    private static final int RIL_REQUEST_DIAL_EMERGENCY = 10016;
+    private static final int RIL_UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED = 1036;
+    private static final int RIL_UNSOL_DEVICE_READY_NOTI = 11008;
+    private static final int RIL_UNSOL_AM = 11010;
+    private static final int RIL_UNSOL_WB_AMR_STATE = 11017;
+    private static final int RIL_UNSOL_RESPONSE_HANDOVER = 11021;
+
     public SamsungBCMRIL(Context context, int networkMode, int cdmaSubscription) {
         this(context, networkMode, cdmaSubscription, null);
     }
@@ -74,6 +80,7 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
         send(rr);
     }
 
+    @Override
     public void setUiccSubscription(int slotId, int appIndex, int subId,
             int subStatus, Message result) {
         if (RILJ_LOGD) riljLog("setUiccSubscription" + slotId + " " + appIndex + " " + subId + " " + subStatus);
@@ -106,7 +113,7 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
     }
 
     public void setDefaultVoiceSub(int subIndex, Message response) {
-        // No need to inform the RIL on Broadcom
+        // Fake the message, No need to inform the RIL on Broadcom
         AsyncResult.forMessage(response, 0, null);
         response.sendToTarget();
     }
@@ -127,6 +134,39 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
 
     private void invokeOemRilRequestBrcm(byte key, byte value, Message response) {
         invokeOemRilRequestRaw(new byte[] { 'B', 'R', 'C', 'M', key, value }, response);
+    }
+
+    @Override
+    protected void
+    processUnsolicited (Parcel p) {
+        Object ret;
+        int dataPosition = p.dataPosition(); // save off position within the Parcel
+        int response = p.readInt();
+
+        switch(response) {
+            case RIL_UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED:
+                ret = responseVoid(p);
+                break;
+            case RIL_UNSOL_DEVICE_READY_NOTI:
+                ret = responseVoid(p);
+                break;
+            case RIL_UNSOL_AM:
+                ret = responseString(p);
+                break;
+            case RIL_UNSOL_WB_AMR_STATE:
+                ret = responseInts(p);
+                break;
+            case RIL_UNSOL_RESPONSE_HANDOVER:
+                ret = responseVoid(p);
+                break;
+            default:
+                // Rewind the Parcel
+                p.setDataPosition(dataPosition);
+
+                // Forward responses that we are not overriding to the super class
+                super.processUnsolicited(p);
+                return;
+        }
     }
 
     protected RILRequest
@@ -278,7 +318,7 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
             case RIL_REQUEST_SET_INITIAL_ATTACH_APN: ret =  responseVoid(p); break;
             case RIL_REQUEST_IMS_REGISTRATION_STATE: ret =  responseInts(p); break;
             case RIL_REQUEST_IMS_SEND_SMS: ret =  responseSMS(p); break;
-            // case RIL_REQUEST_GET_DATA_CALL_PROFILE: ret =  responseGetDataCallProfile(p); break;
+            case RIL_REQUEST_GET_DATA_CALL_PROFILE: ret =  responseVoid(p); break;
             case RIL_REQUEST_SET_UICC_SUBSCRIPTION: ret =  responseVoid(p); break;
             case RIL_REQUEST_SET_DATA_SUBSCRIPTION: ret =  responseVoid(p); break;
             case RIL_REQUEST_SIM_TRANSMIT_BASIC: ret =  responseICC_IO(p); break;
@@ -357,7 +397,6 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
         return rr;
     }
 
-
     @Override
     protected Object
     responseCallList(Parcel p) {
@@ -381,7 +420,6 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
         response = new ArrayList<DriverCall>(num);
 
         for (int i = 0 ; i < num ; i++) {
-
             dc                      = new DriverCall();
             dc.state                = DriverCall.stateFromCLCC(p.readInt());
             dc.index                = p.readInt();
@@ -390,13 +428,12 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
             dc.isMT                 = (0 != p.readInt());
             dc.als                  = p.readInt();
             voiceSettings           = p.readInt();
-            // p.readInt();
             dc.isVoice              = (0 != voiceSettings);
             isVideo                 = (0 != p.readInt());
             dc.isVoicePrivacy       = (0 != p.readInt());
-            p.readInt();
-            p.readInt();
-            p.readString();
+            p.readInt(); // Samsung CallDetails
+            p.readInt(); // Samsung CallDetails
+            p.readString(); // Samsung CallDetails
             dc.number               = p.readString();
             int np                  = p.readInt();
             dc.numberPresentation   = DriverCall.presentationFromCLIP(np);

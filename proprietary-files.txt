@@ -1,4 +1,3 @@
-bin
 bin/atx
 bin/atxd
 bin/at_distributor
