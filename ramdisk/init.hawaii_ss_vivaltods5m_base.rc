@@ -333,6 +333,10 @@ on fs
 # Permissions for System Server and daemons.
     chown system system /sys/devices/platform/panel/backlight/panel/brightness
 
+on post-fs  
+   # Force kernel read only 1 page at a time
+   write /proc/sys/vm/page-cluster 0
+
 on post-fs-data
 # SA, System SW, SAMSUNG create log directory
     mkdir /data/log 0775 system log
