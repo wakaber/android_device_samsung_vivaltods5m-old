@@ -19,15 +19,19 @@ BOARD_VENDOR := samsung
 # Assert
 TARGET_OTA_ASSERT_DEVICE := vivaltods5m,G313HU,SM-G313HU,hawaii
 
-# Kernel (console=ttyS0,115200n8 mem=456M gpt v3d_mem=67108864 pmem=24M@0x9E800000)
-TARGET_PREBUILT_KERNEL := device/samsung/vivaltods5m/kernel
-BOARD_KERNEL_CMDLINE :=
+# Prebuilt chromium
+PRODUCT_PREBUILT_WEBVIEWCHROMIUM := false
+
 BOARD_KERNEL_BASE := 0x81e00000
 BOARD_KERNEL_PAGESIZE := 4096
 TARGET_KERNEL_CONFIG := bcm21664_hawaii_ss_vivaltods5m_rev00_cm_defconfig
-# TARGET_KERNEL_SOURCE := ../kernel/samsung/vivaltods5m
-# KERNEL_TOOLCHAIN_PREFIX:=/home/nikiz/cm11/prebuilt/linux-x86/toolchains/arm-eabi-4.7/bin/arm-eabi-
-TARGET_KERNEL_CUSTOM_TOOLCHAIN := arm-eabi-4.7
+TARGET_KERNEL_SOURCE := kernel/samsung/hawaii
+KERNEL_TOOLCHAIN_PREFIX := /media/file1/cm-11.0/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin/arm-eabi-
+# Prebuilt
+# TARGET_PREBUILT_KERNEL := device/samsung/vivaltods5m/kernel
+# BOARD_MKBOOTIMG_ARGS:=--second device/samsung/vivaltods5m/second.bin
+# Prebuilt end
+BOARD_MKBOOTIMG_ARGS:=--second $(OUT)/obj/KERNEL_OBJ/arch/arm/boot/dts/hawaii_ss_vivaltods5m_rev00.dtb
 
 # PARTITION SIZE
 BOARD_BOOTIMAGE_PARTITION_SIZE := 8388608
@@ -36,10 +40,6 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1161543680
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2424307712
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
-# vivaltods5m needs this in the boot image
-# BOARD_MKBOOTIMG_ARGS := --second $(OUT)/obj/KERNEL_OBJ/arch/arm/boot/dts/hawaii_ss_vivaltods5m_rev00.dtb
-# Use this if you use a prebuilt kernel
-BOARD_MKBOOTIMG_ARGS := --second device/samsung/vivaltods5m/second.bin
 
 # FLASH BLOCK SIZE (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -78,7 +78,7 @@ BOARD_EGL_WORKAROUND_BUG_10194508 := true
 TARGET_USES_ION := true
 HWUI_COMPILE_FOR_PERF := true
 #TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
-COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS -DCAPRI_HWC
+COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS -DHAWAII_HWC
 TARGET_GLOBAL_CFLAGS += -DANDROID_MULTI_SIM
 TARGET_GLOBAL_CPPFLAGS += -DANDROID_MULTI_SIM
 
@@ -87,13 +87,6 @@ BOARD_USE_BGRA_8888 := true
 
 # Audio
 BOARD_USES_ALSA_AUDIO := true
-
-# Optimisations
-#TARGET_USE_SCORPIAN_BIONIC_OPTIMIZATION := true
-#TARGET_CORTEX_CACHE_LINE_32 := true
-#ARCH_ARM_HIGH_OPTIMIZATION := true
-#ARCH_ARM_HIGH_OPTIMIZATION_COMPAT := true
-#ARCH_ARM_HAVE_32_BYTE_CACHE_LINES := true
 
 # Enable dex-preoptimization to speed up the first boot sequence
 # of an SDK AVD. Note that this operation only works on Linux for now
@@ -104,14 +97,6 @@ ifeq ($(HOST_OS),linux)
   endif
 endif
 
-# Add h/w acceleration in browser
-#ENABLE_WEBGL := true
-#WITH_JIT := true
-#ENABLE_JSC_JIT := true
-#JS_ENGINE := v8
-#HTTP := chrome
-#TARGET_FORCE_CPU_UPLOAD := true
-
 # Bootanimation
 TARGET_BOOTANIMATION_PRELOAD := true
 TARGET_BOOTANIMATION_TEXTURE_CACHE := true
@@ -121,10 +106,6 @@ TARGET_BOOTANIMATION_TEXTURE_CACHE := true
 #BOARD_ALLOW_SUSPEND_IN_CHARGER := true
 BOARD_CHARGING_MODE_BOOTING_LPM := /sys/class/power_supply/battery/batt_lp_charging
 #BOARD_BATTERY_DEVICE_NAME := "battery"
-
-SENSORS_NEED_SETRATE_ON_ENABLE := true
-BOARD_USE_LEGACY_SENSORS_FUSION := false
-BOARD_SDEXT_DEVICE := /dev/block/mmcblk1p1
 
 # healthd
 BOARD_HAL_STATIC_LIBRARIES := libhealthd-vivaltods5m.hawaii
@@ -147,6 +128,10 @@ BOARD_USES_MMCUTILS := false
 BOARD_RECOVERY_ALWAYS_WIPES := false
 BOARD_SUPPRESS_EMMC_WIPE := true
 
+# Philz config
+RECOVERY_VARIANT := philz
+BOARD_HAS_LOW_RESOLUTION := true
+
 # TWRP Settings
 RECOVERY_GRAPHICS_USE_LINELENGTH 		:= true
 DEVICE_RESOLUTION	:= 480x800
@@ -160,8 +145,8 @@ TW_FLASH_FROM_STORAGE 				:= true
 TW_NO_REBOOT_BOOTLOADER 			:= true
 TW_HAS_DOWNLOAD_MODE				:= true
 
-BOARD_HAVE_FM_RADIO := true
-BOARD_FM_DEVICE := bcm4329
+BOARD_HAVE_FM_RADIO := false
+# BOARD_FM_DEVICE := bcm4329
 
 # CMHW
 BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/vivaltods5m/cmhw/

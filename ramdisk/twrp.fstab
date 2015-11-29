@@ -1,0 +1,9 @@
+/boot       emmc        /dev/block/platform/sdhci.1/by-name/KERNEL
+/system     ext4        /dev/block/platform/sdhci.1/by-name/system
+/data       ext4        /dev/block/platform/sdhci.1/by-name/userdata
+/cache      ext4        /dev/block/platform/sdhci.1/by-name/CSC
+/recovery   emmc        /dev/block/platform/sdhci.1/by-name/RECOVERY
+/efs        ext4        /dev/block/platform/sdhci.1/by-name/efs
+/external_sd     vfat       /devices/platform/sdhci.0/mmc_host/mmc2   flags=display="Micro SDcard";storage;wipeingui;removable
+/usb-otg         vfat       /devices/platform/dwc_otg/usb1       flags=display="USB-OTG";storage;wipeingui;removable
+#/preload    ext4        /dev/block/platform/sdhci.1/by-name/HIDDEN                            flags=display="Preload";wipeingui;backup=1

@@ -43,6 +43,9 @@
 /dev/timerirq             0666   system     system
 /dev/ami_sensor           0666   system     system
 
+# SIM lock and read IMEI		
+/dev/bcm_security         0660   radio      root
+
 # for Hawaii
 /dev/mm_v3d               0666   system     graphics
 /dev/mm_isp               0666   system     camera
