@@ -15,27 +15,33 @@ DEVICE_PACKAGE_OVERLAYS += device/samsung/vivaltods5m/overlay
 # Init files
 PRODUCT_COPY_FILES += \
 	device/samsung/vivaltods5m/ramdisk/fstab.hawaii_ss_vivaltods5m:root/fstab.hawaii_ss_vivaltods5m \
-	device/samsung/vivaltods5m/ramdisk/init:root/init \
+	device/samsung/vivaltods5m/ramdisk/twrp.fstab:root/etc/twrp.fstab \
+	#device/samsung/vivaltods5m/ramdisk/deprecated/init:root/init \
 	device/samsung/vivaltods5m/ramdisk/init.hawaii_ss_vivaltods5m.rc:root/init.hawaii_ss_vivaltods5m.rc \
 	device/samsung/vivaltods5m/ramdisk/init.hawaii_ss_vivaltods5m_base.rc:root/init.hawaii_ss_vivaltods5m_base.rc \
-	device/samsung/vivaltods5m/ramdisk/init.environ.rc:root/init.environ.rc \
-	device/samsung/vivaltods5m/ramdisk/init.common.rc:root/init.common.rc \
-	device/samsung/vivaltods5m/ramdisk/init.trace.rc:root/init.trace.rc \
 	device/samsung/vivaltods5m/ramdisk/init.log.rc:root/init.log.rc \
 	device/samsung/vivaltods5m/ramdisk/init.rc:root/init.rc \
 	device/samsung/vivaltods5m/ramdisk/init.usb_hawaii_ss.rc:root/init.usb_hawaii_ss.rc \
-	device/samsung/vivaltods5m/ramdisk/init.usb.rc:root/init.usb.rc \
 	device/samsung/vivaltods5m/ramdisk/init.wifi.rc:root/init.wifi.rc \
-	device/samsung/vivaltods5m/ramdisk/ueventd.hawaii_ss_vivaltods5m.rc:root/ueventd.hawaii_ss_vivaltods5m.rc \
-	device/samsung/vivaltods5m/ramdisk/ueventd.hawaii_ss.rc:root/ueventd.hawaii_ss.rc \
-	device/samsung/vivaltods5m/ramdisk/ueventd.rc:root/ueventd.rc
+	device/samsung/vivaltods5m/ramdisk/lpm.rc:root/lpm.rc \
+	device/samsung/vivaltods5m/ramdisk/ueventd.hawaii_ss_vivaltods5m.rc:root/ueventd.hawaii_ss_vivaltods5m.rc
 
 # Audio config
 PRODUCT_COPY_FILES += \
-	device/samsung/vivaltods5m/configs/bluetooth/bt_did.conf:system/etc/bluetooth/bt_did.conf \
 	device/samsung/vivaltods5m/configs/media_profiles.xml:system/etc/media_profiles.xml \
 	device/samsung/vivaltods5m/configs/audio_policy.conf:system/etc/audio_policy.conf \
-	device/samsung/vivaltods5m/configs/media_codecs.xml:system/etc/media_codecs.xml 
+	device/samsung/vivaltods5m/configs/media_codecs.xml:system/etc/media_codecs.xml
+
+# wifi config
+PRODUCT_COPY_FILES += \
+	device/samsung/vivaltods5m/configs/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+	device/samsung/vivaltods5m/configs/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+	device/samsung/vivaltods5m/configs/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+
+# Bluetooth config
+PRODUCT_COPY_FILES += \
+	device/samsung/vivaltods5m/configs/bluetooth/bt_did.conf:system/etc/bluetooth/bt_did.conf \
+	device/samsung/vivaltods5m/configs/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -48,23 +54,16 @@ PRODUCT_COPY_FILES += \
 # Insecure ADBD
 # (ro.adb.secure=3)
 ADDITIONAL_DEFAULT_PROPERTIES += \
-	ro.adb.secure=0 \
-	persist.service.adb.enable=1
+	# ro.adb.secure=0 \
+	# persist.service.adb.enable=1
 
 # KSM
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.ksm.default=1
 
-# Broadcom stuff
-ADDITIONAL_DEFAULT_PROPERTIES += \
-	persist.brcm.log=none \
-	persist.brcm.cp_crash=none \
-	persist.brcm.ap_crash=none \
-	persist.brcm.force_ramdump=0 \
-	persist.sys.usb.sport=1
-
 # Filesystem management tools
 PRODUCT_PACKAGES += \
+	libbluetooth_jni \
 	setup_fs \
 	e2fsck \
 	f2fstat \
@@ -83,13 +82,10 @@ PRODUCT_PACKAGES += \
 	audio.usb.default \
 	audio_policy.hawaii \
 	libaudio-resampler \
-	libfmradio \
-	libanalogradiobroadcasting \
 	lights.hawaii \
 	libnetcmdiface \
 	audio.primary.default \
-	telephony-common \
-	telephony-msim
+	libstagefrighthw
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
